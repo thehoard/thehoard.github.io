@@ -16,17 +16,19 @@ function App() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         let baseWidth = 500;
-        let baseHeight = 0;
+        let baseHeight = 500;
+        let foldStroke = 10; //espace entre les images pour pouvoir plier le Mini
 
         canvas.width = (img.width + baseWidth);
-        canvas.height = (img.height * 2) + (baseHeight * 2) + 10;
+        canvas.height = ((img.height * 2) + (baseHeight * 2) + foldStroke);
         const centerXCanvas = ((canvas.width - img.width) / 2);
+        const centerYCanvas = ((canvas.height - (img.height * 2)) / 2);
 
         ctx.save();
         ctx.scale(1, -1);
-        ctx.drawImage(img, centerXCanvas, -img.height); //iimage renversée
+        ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height)); //image renversée
         ctx.restore();
-        ctx.drawImage(img, centerXCanvas, (img.height) + 10); //image normale
+        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke)); //image normale
 
         const dataURL = canvas.toDataURL('image/jpeg');
 
