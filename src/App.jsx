@@ -4,11 +4,10 @@ import './App.css'
 function App() {
   const [imagePreview, setImagePreview] = useState(null);
 
-  // Fonction appelée lorsqu'une image est sélectionnée
-  const handleImageChange = (e) => {
-    e.preventDefault();
+  const handleImageChange = (imageChange) => {
+    imageChange.preventDefault();
 
-    const file = e.target.files[0];
+    const file = imageChange.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
