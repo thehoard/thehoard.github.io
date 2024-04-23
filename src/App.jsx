@@ -15,16 +15,18 @@ function App() {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
+        let baseWidth = 500;
+        let baseHeight = 0;
 
-        canvas.width = img.width;
-        canvas.height = (img.height * 2) + 10;
+        canvas.width = (img.width + baseWidth);
+        canvas.height = (img.height * 2) + (baseHeight * 2) + 10;
+        const centerXCanvas = ((canvas.width - img.width) / 2);
 
         ctx.save();
         ctx.scale(1, -1);
-        ctx.drawImage(img, 0, -img.height);
+        ctx.drawImage(img, centerXCanvas, -img.height); //iimage renversée
         ctx.restore();
-
-        ctx.drawImage(img, 0, (img.height) + 10);
+        ctx.drawImage(img, centerXCanvas, (img.height) + 10); //image normale
 
         const dataURL = canvas.toDataURL('image/jpeg');
 
