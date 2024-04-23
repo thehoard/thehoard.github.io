@@ -11,13 +11,18 @@ function App() {
     const reader = new FileReader();
 
     reader.onload = (event) => {
+
       const img = new Image();
-      img.onload = () => {
+      const baseImg = new Image();
+
+      baseImg.onload = () => {
+
+        let baseWidth = img.width * 0.4; // taille du pied, fixée pour le moment à 140% des dimensions de l'image
+        let baseHeight = img.height * 0.3;
+        let foldStroke = 10; // espace entre les images pour pouvoir plier le Mini
+
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        let baseWidth = img.width * 0.4; // taille du pied, fixée pour le moment à 140% des dimensiions de l'image
-        let baseHeight = img.height * 0.3;
-        let foldStroke = 10; //espace entre les images pour pouvoir plier le Mini
 
         canvas.width = (img.width + baseWidth);
         canvas.height = ((img.height * 2) + (baseHeight * 2) + foldStroke);
@@ -25,17 +30,22 @@ function App() {
         const centerYCanvas = ((canvas.height - (img.height * 2)) / 2);
 
         ctx.save();
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.scale(1, -1);
-        ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height)); //image renversée
+        ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height)); // image renversée
         ctx.restore();
-        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke)); //image normale
+        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height)); // image normale
+        ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight);
+        ctx.drawImage(baseImg, 0, (canvas.height - baseHeight), canvas.width, baseHeight);
 
         const dataURL = canvas.toDataURL('image/jpeg');
 
         setImagePreview(dataURL);
-
       };
+
       img.src = event.target.result;
+      baseImg.src = '../src/assets/Minibase.svg';
     };
 
     if (file) {
