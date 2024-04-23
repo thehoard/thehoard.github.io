@@ -15,8 +15,8 @@ function App() {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        let baseWidth = 500;
-        let baseHeight = 500;
+        let baseWidth = img.width * 0.4; // taille du pied, fixée pour le moment à 140% des dimensiions de l'image
+        let baseHeight = img.height * 0.3;
         let foldStroke = 10; //espace entre les images pour pouvoir plier le Mini
 
         canvas.width = (img.width + baseWidth);
