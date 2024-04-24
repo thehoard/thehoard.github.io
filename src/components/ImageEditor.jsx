@@ -18,25 +18,25 @@ function ImageEditor() {
   
           let baseWidth = img.width * 0.4; // taille du pied, fixée pour le moment à 140% des dimensions de l'image
           let baseHeight = img.height * 0.3;
-          let foldStroke = 10; // espace entre les images pour pouvoir plier le Mini
+          let foldStroke = img.height * 0.02; // espace entre les images pour pouvoir plier le Mini
   
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
   
           canvas.width = (img.width + baseWidth);
-          canvas.height = ((img.height * 2) + (baseHeight * 2) + foldStroke);
+          canvas.height = ((img.height * 2) + (baseHeight * 2) + (foldStroke*2));
           const centerXCanvas = ((canvas.width - img.width) / 2);
-          const centerYCanvas = ((canvas.height - (img.height * 2)) / 2);
+          const centerYCanvas = ((canvas.height - ((img.height * 2) + (foldStroke*2))) / 2);
   
           ctx.save();
-          ctx.fillStyle = 'white';
+          ctx.fillStyle = 'black';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.scale(1, -1);
-          ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height)); // image renversée
+          ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke)); // image renversée
           ctx.restore();
-          ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height)); // image normale
-          ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight);
-          ctx.drawImage(baseImg, 0, (canvas.height - baseHeight), canvas.width, baseHeight);
+          ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke)); // image normale
+          ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight); // base haute
+          ctx.drawImage(baseImg, 0, (canvas.height - baseHeight), canvas.width, baseHeight); //base basse
   
           const dataURL = canvas.toDataURL('image/jpeg');
   
