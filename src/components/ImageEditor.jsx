@@ -29,7 +29,7 @@ function ImageEditor() {
           const centerYCanvas = ((canvas.height - ((img.height * 2) + (foldStroke*2))) / 2);
   
           ctx.save();
-          ctx.fillStyle = 'black';
+          ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.scale(1, -1);
           ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke)); // image renversée
@@ -44,7 +44,7 @@ function ImageEditor() {
         };
   
         img.src = event.target.result;
-        baseImg.src = '../src/assets/Minibase.svg';
+        baseImg.src = '../src/assets/images/Minibase.svg';
       };
   
       if (file) {

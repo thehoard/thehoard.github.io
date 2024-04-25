@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import './components/ImageEditor';
+import ReactCrop from './components/ReactCrop.tsx';
 import ImageEditor from './components/ImageEditor';
 
 function App() {
@@ -8,7 +8,8 @@ function App() {
 
   return (
     <div>
-      <ImageEditor />
+      <ReactCrop />
+      {/* <ImageEditor /> */}
     </div>
   );
 }
