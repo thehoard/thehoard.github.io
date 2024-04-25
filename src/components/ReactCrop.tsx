@@ -133,22 +133,6 @@ export default function ImageCropper() {
     [completedCrop, scale, rotate],
   )
 
-  function handleToggleAspectClick() {
-    if (aspect) {
-      setAspect(undefined)
-    } else {
-      setAspect(16 / 9)
-
-      if (imgRef.current) {
-        const { width, height } = imgRef.current
-        const newCrop = centerAspectCrop(width, height, 16 / 9)
-        setCrop(newCrop)
-        // Updates the preview
-        setCompletedCrop(convertToPixelCrop(newCrop, width, height))
-      }
-    }
-  }
-
   return (
     <div className="App">
       <div className="Crop-Controls">
@@ -176,18 +160,13 @@ export default function ImageCropper() {
             }
           />
         </div>
-        <div>
-          <button onClick={handleToggleAspectClick}>
-            Toggle aspect {aspect ? 'off' : 'on'}
-          </button>
-        </div>
       </div>
       {!!imgSrc && (
         <ReactCrop
           crop={crop}
           onChange={(_, percentCrop) => setCrop(percentCrop)}
           onComplete={(c) => setCompletedCrop(c)}
-          aspect={aspect}
+          aspect={undefined}
           // minWidth={400}
           minHeight={100}
         // circularCrop
