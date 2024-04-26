@@ -14,7 +14,6 @@ import 'react-image-crop/dist/ReactCrop.css';
 function centerAspectCrop(
   mediaWidth: number,
   mediaHeight: number,
-  aspect: number,
 ) {
   return centerCrop(
     makeAspectCrop(
@@ -22,7 +21,6 @@ function centerAspectCrop(
         unit: '%',
         width: 90,
       },
-      aspect,
       mediaWidth,
       mediaHeight,
     ),
@@ -39,9 +37,6 @@ export default function ImageCropper() {
   const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
-  const [scale, setScale] = useState(1)
-  const [rotate, setRotate] = useState(0)
-  const [aspect, setAspect] = useState<number | undefined>(16 / 9)
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -55,11 +50,10 @@ export default function ImageCropper() {
   }
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
-    if (aspect) {
-      const { width, height } = e.currentTarget
-      setCrop(centerAspectCrop(width, height, aspect))
-    }
+    const { width, height } = e.currentTarget
+    setCrop(centerAspectCrop(width, height))
   }
+
 
   async function onDownloadCropClick() {
     const image = imgRef.current
@@ -71,8 +65,9 @@ export default function ImageCropper() {
     // This will size relative to the uploaded image
     // size. If you want to size according to what they
     // are looking at on screen, remove scaleX + scaleY
-    const scaleX = image.naturalWidth / image.width
-    const scaleY = image.naturalHeight / image.height
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+
 
     const offscreen = new OffscreenCanvas(
       completedCrop.width * scaleX,
@@ -94,6 +89,7 @@ export default function ImageCropper() {
       offscreen.width,
       offscreen.height,
     )
+
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
     const blob = await offscreen.convertToBlob({
@@ -124,49 +120,23 @@ export default function ImageCropper() {
           imgRef.current,
           previewCanvasRef.current,
           completedCrop,
-          scale,
-          rotate,
         )
       }
     },
     100,
-    [completedCrop, scale, rotate],
+    [completedCrop],
   )
 
   return (
-    <div className="App">
+    <div className="Crop-Container">
       <div className="Crop-Controls">
         <input type="file" accept="image/*" onChange={onSelectFile} />
-        <div>
-          <label htmlFor="scale-input">Scale: </label>
-          <input
-            id="scale-input"
-            type="number"
-            step="0.1"
-            value={scale}
-            disabled={!imgSrc}
-            onChange={(e) => setScale(Number(e.target.value))}
-          />
-        </div>
-        <div>
-          <label htmlFor="rotate-input">Rotate: </label>
-          <input
-            id="rotate-input"
-            type="number"
-            value={rotate}
-            disabled={!imgSrc}
-            onChange={(e) =>
-              setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-            }
-          />
-        </div>
       </div>
       {!!imgSrc && (
         <ReactCrop
           crop={crop}
           onChange={(_, percentCrop) => setCrop(percentCrop)}
           onComplete={(c) => setCompletedCrop(c)}
-          aspect={undefined}
           // minWidth={400}
           minHeight={100}
         // circularCrop
@@ -175,7 +145,6 @@ export default function ImageCropper() {
             ref={imgRef}
             alt="Crop me"
             src={imgSrc}
-            style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
             onLoad={onImageLoad}
           />
         </ReactCrop>
