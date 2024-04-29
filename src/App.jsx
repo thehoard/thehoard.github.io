@@ -13,10 +13,9 @@ function App() {
   }
 
   return (
-    <div>
+    <div id="cropContainer">
       <ReactCrop onBlobUrlChange={handleImageChange} />
-      {imageUrl && <img src={imageUrl} alt="Cropped Image" />}
-      <ImageEditor imageUrl={imageUrl}/>
+      <ImageEditor imageUrl={imageUrl} />
     </div>
   );
 }

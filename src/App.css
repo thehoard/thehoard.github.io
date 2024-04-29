@@ -73,3 +73,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+#cropContainer {
+  display : inline-flex
+}
+
+#imagePreview{
+  margin-left: 5vw;
+}
