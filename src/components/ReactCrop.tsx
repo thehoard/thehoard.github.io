@@ -1,14 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
   Crop,
   PixelCrop,
-  convertToPixelCrop,
 } from 'react-image-crop';
-import { canvasPreview } from '../../node_modules/react-image-crop/src/demo/canvasPreview';
+import { canvasPreview } from './canvasPreview';
 import { useDebounceEffect } from '../../node_modules/react-image-crop/src/demo/useDebounceEffect';
 import 'react-image-crop/dist/ReactCrop.css';
+
+interface ReactCropProps {
+  onBlobUrlChange: (blobUrl: string) => void;
+}
 
 
 function centerAspectCrop(
@@ -29,7 +32,7 @@ function centerAspectCrop(
   )
 }
 
-export default function ImageCropper() {
+export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -37,6 +40,7 @@ export default function ImageCropper() {
   const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+  const [previewCanvas, setPreviewCanvas] = useState<HTMLCanvasElement | null>(null);
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -54,58 +58,44 @@ export default function ImageCropper() {
     setCrop(centerAspectCrop(width, height))
   }
 
+  useEffect(() => {
+    if (completedCrop && imgRef.current && previewCanvasRef.current) {
+      const image = imgRef.current;
+      const previewCanvas = previewCanvasRef.current;
 
-  async function onDownloadCropClick() {
-    const image = imgRef.current
-    const previewCanvas = previewCanvasRef.current
-    if (!image || !previewCanvas || !completedCrop) {
-      throw new Error('Crop canvas does not exist')
+      const scaleX = image.naturalWidth / image.width;
+      const scaleY = image.naturalHeight / image.height;
+
+      const offscreen = new OffscreenCanvas(
+        completedCrop.width * scaleX,
+        completedCrop.height * scaleY
+      );
+      const ctx = offscreen.getContext('2d');
+      if (!ctx) {
+        throw new Error('No 2d context');
+      }
+
+      ctx.drawImage(
+        image,
+        completedCrop.x * scaleX,
+        completedCrop.y * scaleY,
+        completedCrop.width * scaleX,
+        completedCrop.height * scaleY,
+        0,
+        0,
+        offscreen.width,
+        offscreen.height
+      );
+      
+      offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
+        const urlCreator = window.URL || window.webkitURL;
+        const imageUrl = urlCreator.createObjectURL(blob);
+
+        // on remonte l'image croppée au composant App à chaque changement du crop
+          onBlobUrlChange(imageUrl);
+      });
     }
-
-    // This will size relative to the uploaded image
-    // size. If you want to size according to what they
-    // are looking at on screen, remove scaleX + scaleY
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-
-
-    const offscreen = new OffscreenCanvas(
-      completedCrop.width * scaleX,
-      completedCrop.height * scaleY,
-    )
-    const ctx = offscreen.getContext('2d')
-    if (!ctx) {
-      throw new Error('No 2d context')
-    }
-
-    ctx.drawImage(
-      previewCanvas,
-      0,
-      0,
-      previewCanvas.width,
-      previewCanvas.height,
-      0,
-      0,
-      offscreen.width,
-      offscreen.height,
-    )
-
-    // You might want { type: "image/jpeg", quality: <0 to 1> } to
-    // reduce image size
-    const blob = await offscreen.convertToBlob({
-      type: 'image/png',
-    })
-
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current)
-    }
-    blobUrlRef.current = URL.createObjectURL(blob)
-
-    if (hiddenAnchorRef.current) {
-      hiddenAnchorRef.current.href = blobUrlRef.current
-      hiddenAnchorRef.current.click()
-    }
-  }
+  }, [completedCrop]);
 
   useDebounceEffect(
     async () => {
@@ -151,58 +141,15 @@ export default function ImageCropper() {
       )}
       {!!completedCrop && (
         <>
-          <div>
+          <div style={{ display: 'none' }}>
             <canvas
               ref={previewCanvasRef}
-              style={{
-                border: '1px solid black',
-                objectFit: 'contain',
-                width: completedCrop.width,
-                height: completedCrop.height,
-              }}
+              width={completedCrop.width}
+              height={completedCrop.height}
             />
-          </div>
-          <div>
-            <button onClick={onDownloadCropClick}>Download Crop</button>
-            <div style={{ fontSize: 12, color: '#666' }}>
-              If you get a security error when downloading try opening the
-              Preview in a new tab (icon near top right).
-            </div>
-            <a
-              href="#hidden"
-              ref={hiddenAnchorRef}
-              download
-              style={{
-                position: 'absolute',
-                top: '-200vh',
-                visibility: 'hidden',
-              }}
-            >
-              Hidden download
-            </a>
           </div>
         </>
       )}
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-// function CropDemo({ src }) {
-//   const [crop, setCrop] = useState<Crop>()
-//   return (
-//     <ReactCrop crop={crop} onChange={c => setCrop(c)}>
-//       <img src={src} />
-//     </ReactCrop>
-//   )
-// }
-// export default ReactCrop;
