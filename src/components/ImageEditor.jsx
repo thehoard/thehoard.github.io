@@ -5,9 +5,8 @@ function ImageEditor({ imageUrl }) {
   const [baseImg, setBaseImg] = useState(null);
 
   useEffect(() => {
-    // Charger l'image de base lors du montage initial du composant
     const baseImage = new Image();
-    baseImage.onload = () => {
+    baseImage.onload = () => { //chargement de l'image de la base
       setBaseImg(baseImage);
     };
     baseImage.src = '../src/assets/images/Minibase.svg';
@@ -18,9 +17,9 @@ function ImageEditor({ imageUrl }) {
       const img = new Image();
 
       img.onload = () => {
-        const baseWidth = img.width * 0.4;
+        const baseWidth = img.width * 0.4; //définition de la taille automatique de la base et de des espaces de pliures
         const baseHeight = img.height * 0.3;
-        const foldStroke = img.height * 0.02;
+        const foldStroke = img.height * 0.01;
 
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -49,12 +48,20 @@ function ImageEditor({ imageUrl }) {
     }
   }, [imageUrl, baseImg]);
 
+  const downloadImage = () => {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = imagePreview;
+    downloadLink.download = 'image.jpg';
+    downloadLink.click();
+  };
+
   return (
     <div>
       {imagePreview && (
-        <div>
-          <h2>Prévisualisation de l'image :</h2>
+        <div id="miniPreview">
+          <h2>Prévisualisation du mini :</h2>
           <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
+          <button onClick={downloadImage}>Télécharger le mini</button>
         </div>
       )}
     </div>

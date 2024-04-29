@@ -86,6 +86,7 @@ button:focus-visible {
   display : inline-flex
 }
 
-#imagePreview{
+#miniPreview{
   margin-left: 5vw;
+  flex-direction: column;
 }
