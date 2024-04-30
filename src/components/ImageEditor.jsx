@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 function ImageEditor({ imageUrl }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [baseImg, setBaseImg] = useState(null);
+  const [Minis, setMinis] = useState([]);
+  const [idCount, setIdCount] = useState(1);
+
 
   useEffect(() => {
     const baseImage = new Image();
@@ -17,7 +20,7 @@ function ImageEditor({ imageUrl }) {
       const img = new Image();
 
       img.onload = () => {
-        const baseWidth = img.width * 0.4; //définition de la taille automatique de la base et de des espaces de pliures
+        const baseWidth = img.width * 0.4; //définition de la taille automatique de la base et des espaces de pliures
         const baseHeight = img.height * 0.3;
         const foldStroke = img.height * 0.01;
 
@@ -55,6 +58,17 @@ function ImageEditor({ imageUrl }) {
     downloadLink.click();
   };
 
+  // Fonction pour ajouter un nouveau Mini au tableau qui servira de base à l'édition du canvas A4.
+  const addImageToList = () => {
+    const newMini = {
+      id: idCount,
+      image: imagePreview, // Fichier image courant au moment de l'appel de la méthode.
+      repeat: 5 // valeur de 5 pour test : l'utilisateur pourra modifier cette valeur pour créer plusieurs minis similaires.
+    };
+    setMinis([...Minis, newMini]);
+    setIdCount(idCount + 1); // Incrémente l'ID pour le prochain objet.
+  };
+
 
   return (
     <div>
@@ -64,7 +78,7 @@ function ImageEditor({ imageUrl }) {
           <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
           <div id="cropControls">
             <button onClick={downloadImage}>Télécharger le mini</button>
-            <button>Intégrer le Mini à l'armée</button>
+            <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
           </div>
         </div>
       )}
