@@ -30,12 +30,6 @@ function App() {
 
         setImagePreview(dataURL);
 
-        // const downloadLink = document.createElement('a');
-        // downloadLink.href = dataURL;
-        // downloadLink.download = 'mirrored_image.jpg';
-        // downloadLink.click();
-
-
       };
       img.src = event.target.result;
     };
@@ -47,7 +41,7 @@ function App() {
 
   return (
     <div>
-      <h1>test minis printer</h1>
+      <h1>Minis-printer</h1>
       <input type="file" onChange={handleImageChange} accept="image/*" />
       {imagePreview && (
         <div>
