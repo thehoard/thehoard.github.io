@@ -9,7 +9,6 @@ function App() {
 
   function handleImageChange(newImageUrl) {
     setImageUrl(newImageUrl);
-    console.log(imageUrl);
   }
 
   return (

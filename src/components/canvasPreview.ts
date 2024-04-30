@@ -1,4 +1,4 @@
-import { PixelCrop } from '../../node_modules/react-image-crop'
+import { PixelCrop } from 'react-image-crop'
 
 export async function canvasPreview(
   image: HTMLImageElement,

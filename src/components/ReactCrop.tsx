@@ -5,7 +5,7 @@ import ReactCrop, {
   Crop,
   PixelCrop,
 } from 'react-image-crop';
-import { canvasPreview } from './canvasPreview';
+import { canvasPreview } from './CanvasPreview';
 import { useDebounceEffect } from '../../node_modules/react-image-crop/src/demo/useDebounceEffect';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -40,7 +40,6 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
-  const [previewCanvas, setPreviewCanvas] = useState<HTMLCanvasElement | null>(null);
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -61,7 +60,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   useEffect(() => {
     if (completedCrop && imgRef.current && previewCanvasRef.current) {
       const image = imgRef.current;
-      const previewCanvas = previewCanvasRef.current;
+      // const previewCanvas = previewCanvasRef.current;
 
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
@@ -86,13 +85,13 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         offscreen.width,
         offscreen.height
       );
-      
+
       offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
         const urlCreator = window.URL || window.webkitURL;
         const imageUrl = urlCreator.createObjectURL(blob);
 
         // on remonte l'image croppée au composant App à chaque changement du crop
-          onBlobUrlChange(imageUrl);
+        onBlobUrlChange(imageUrl);
       });
     }
   }, [completedCrop]);
@@ -105,7 +104,6 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         imgRef.current &&
         previewCanvasRef.current
       ) {
-        // We use canvasPreview as it's much faster than imgPreview.
         canvasPreview(
           imgRef.current,
           previewCanvasRef.current,
@@ -127,9 +125,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
           crop={crop}
           onChange={(_, percentCrop) => setCrop(percentCrop)}
           onComplete={(c) => setCompletedCrop(c)}
-          // minWidth={400}
           minHeight={100}
-        // circularCrop
         >
           <img
             ref={imgRef}

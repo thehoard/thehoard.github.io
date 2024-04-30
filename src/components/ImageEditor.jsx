@@ -35,9 +35,9 @@ function ImageEditor({ imageUrl }) {
         ctx.scale(1, -1);
         ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke));
         ctx.restore();
-        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke));
+        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke * 2));
         ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight);
-        ctx.drawImage(baseImg, 0, (canvas.height - baseHeight), canvas.width, baseHeight);
+        ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight);
 
         const dataURL = canvas.toDataURL('image/jpeg');
 
@@ -55,13 +55,17 @@ function ImageEditor({ imageUrl }) {
     downloadLink.click();
   };
 
+
   return (
     <div>
       {imagePreview && (
         <div id="miniPreview">
           <h2>Prévisualisation du mini :</h2>
           <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
-          <button onClick={downloadImage}>Télécharger le mini</button>
+          <div id="cropControls">
+            <button onClick={downloadImage}>Télécharger le mini</button>
+            <button>Intégrer le Mini à l'armée</button>
+          </div>
         </div>
       )}
     </div>
