@@ -89,7 +89,7 @@ button:focus-visible {
 
 #armyControls {
   display: inline-flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 50vw;
 }
 
@@ -105,7 +105,7 @@ button:focus-visible {
 
 #cropContainer {
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: fit-content;
   width: 100%;
 }
@@ -115,6 +115,10 @@ button:focus-visible {
   margin-bottom: 1vw;
 }
 
-#numberSlectionLabel {
+#numberSelectionLabel {
   font-weight: bold;
+}
+
+#armyContainer {
+  margin-top: 5vw;
 }

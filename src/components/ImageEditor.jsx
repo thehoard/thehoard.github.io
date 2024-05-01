@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ImageEditor({ imageUrl }) {
   const [imagePreview, setImagePreview] = useState(null);
@@ -99,7 +99,7 @@ function ImageEditor({ imageUrl }) {
             <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label>
             <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label>
             <div id="numberSelector">
-              <label id="numberSlectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
+              <label id="numberSelectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
