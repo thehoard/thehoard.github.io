@@ -5,7 +5,8 @@ function ImageEditor({ imageUrl }) {
   const [baseImg, setBaseImg] = useState(null);
   const [Minis, setMinis] = useState([]);
   const [idCount, setIdCount] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(null); 
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [repeatValue, setRepeatValue] = useState(1);
 
 
   useEffect(() => {
@@ -64,8 +65,8 @@ function ImageEditor({ imageUrl }) {
     const newMini = {
       id: idCount,
       image: imagePreview, // Fichier image courant au moment de l'appel de la méthode.
-      repeat: 5, // valeur de 5 pour test : l'utilisateur pourra modifier cette valeur pour créer plusieurs minis similaires.
-      size: selectedSize,
+      number: repeatValue, // nombre de Minis intégrés à l'armée
+      size: selectedSize, //Taille des Minis ajoutés à l'armée
     };
     setMinis([...Minis, newMini])
     setIdCount(idCount + 1) // Incrémente l'ID pour le prochain objet.
@@ -74,8 +75,12 @@ function ImageEditor({ imageUrl }) {
 
   // Gestionnaire de la taille du Mini
   const handleSizeChange = (event) => {
-    setSelectedSize(event.target.value);
-  };
+    setSelectedSize(event.target.value)
+  }
+
+  const handleRepeatChange = (event) => {
+    setRepeatValue(event.target.value)
+  }
 
 
   return (
@@ -86,15 +91,18 @@ function ImageEditor({ imageUrl }) {
           <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
           <div id="cropControls">
             <div id="sizeSelector">
-            <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange}/> Fine (inférieur à 15cm)</label><br />
-            <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange}/> Minuscule (15 à 30 cm)</label><br />
-            <label><input type="radio" name="size" value="XS" onChange={handleSizeChange}/> Très petit (30cm à 60cm)</label><br />
-            <label><input type="radio" name="size" value="S" onChange={handleSizeChange}/> Petit (60cm à 1.5m)</label><br />
-            <label><input type="radio" name="size" value="M" onChange={handleSizeChange}/> Moyen (1.5m à 3m)</label><br />
-            <label><input type="radio" name="size" value="L" onChange={handleSizeChange}/> Grand (3m à 6m)</label><br />
-            <label><input type="radio" name="size" value="XL" onChange={handleSizeChange}/> Très grand (6m à 12m)</label><br />
-            <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange}/> Gargantuesque (12m à 24m)</label><br />
-            <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange}/> Colossal (24m et plus)</label><br />
+              <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange} /> Fine (inférieur à 15cm)</label><br />
+              <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange} /> Minuscule (15 à 30 cm)</label><br />
+              <label><input type="radio" name="size" value="XS" onChange={handleSizeChange} /> Très petit (30cm à 60cm)</label><br />
+              <label><input type="radio" name="size" value="S" onChange={handleSizeChange} /> Petit (60cm à 1.5m)</label><br />
+              <label><input type="radio" name="size" value="M" onChange={handleSizeChange} /> Moyen (1.5m à 3m)</label><br />
+              <label><input type="radio" name="size" value="L" onChange={handleSizeChange} /> Grand (3m à 6m)</label><br />
+              <label><input type="radio" name="size" value="XL" onChange={handleSizeChange} /> Très grand (6m à 12m)</label><br />
+              <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label><br />
+              <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label><br />
+            </div>
+            <div id="numberSelector">
+            <label>Nombre de Minis à mobiliser :<input type="number" value={repeatValue} onChange={handleRepeatChange}/></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
