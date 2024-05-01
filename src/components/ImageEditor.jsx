@@ -86,26 +86,26 @@ function ImageEditor({ imageUrl }) {
   return (
     <div>
       {imagePreview && (
-        <div id="miniPreview">
-          <h2>Prévisualisation du mini :</h2>
-          <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
-          <div id="cropControls">
-            <div id="sizeSelector">
-              <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange} /> Fine (inférieur à 15cm)</label><br />
-              <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange} /> Minuscule (15 à 30 cm)</label><br />
-              <label><input type="radio" name="size" value="XS" onChange={handleSizeChange} /> Très petit (30cm à 60cm)</label><br />
-              <label><input type="radio" name="size" value="S" onChange={handleSizeChange} /> Petit (60cm à 1.5m)</label><br />
-              <label><input type="radio" name="size" value="M" onChange={handleSizeChange} /> Moyen (1.5m à 3m)</label><br />
-              <label><input type="radio" name="size" value="L" onChange={handleSizeChange} /> Grand (3m à 6m)</label><br />
-              <label><input type="radio" name="size" value="XL" onChange={handleSizeChange} /> Très grand (6m à 12m)</label><br />
-              <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label><br />
-              <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label><br />
-            </div>
+        <div id="cropContainer">
+          <div id="armyButtons">
+            <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange} /> Fine (inférieur à 15cm)</label>
+            <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange} /> Minuscule (15 à 30 cm)</label>
+            <label><input type="radio" name="size" value="XS" onChange={handleSizeChange} /> Très petit (30cm à 60cm)</label>
+            <label><input type="radio" name="size" value="S" onChange={handleSizeChange} /> Petit (60cm à 1.5m)</label>
+            <label><input type="radio" name="size" value="M" onChange={handleSizeChange} /> Moyen (1.5m à 3m)</label>
+            <label><input type="radio" name="size" value="L" onChange={handleSizeChange} /> Grand (3m à 6m)</label>
+            <label><input type="radio" name="size" value="XL" onChange={handleSizeChange} /> Très grand (6m à 12m)</label>
+            <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label>
+            <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label>
             <div id="numberSelector">
-            <label>Nombre de Minis à mobiliser :<input type="number" value={repeatValue} onChange={handleRepeatChange}/></label>
+              <label>Nombre de Minis à mobiliser :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
+          </div>
+          <div id="miniPreview">
+            <h2>Prévisualisation du mini :</h2>
+            <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
           </div>
         </div>
       )}
