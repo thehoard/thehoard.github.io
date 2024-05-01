@@ -86,8 +86,9 @@ function ImageEditor({ imageUrl }) {
   return (
     <div>
       {imagePreview && (
-        <div id="cropContainer">
+        <div id="armyControls">
           <div id="armyButtons">
+            <h2>Choix de la taille</h2>
             <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange} /> Fine (inférieur à 15cm)</label>
             <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange} /> Minuscule (15 à 30 cm)</label>
             <label><input type="radio" name="size" value="XS" onChange={handleSizeChange} /> Très petit (30cm à 60cm)</label>
@@ -98,13 +99,13 @@ function ImageEditor({ imageUrl }) {
             <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label>
             <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label>
             <div id="numberSelector">
-              <label>Nombre de Minis à mobiliser :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
+              <label id="numberSlectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
           </div>
           <div id="miniPreview">
-            <h2>Prévisualisation du mini :</h2>
+            <h3>Prévisualisation du mini :</h3>
             <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
           </div>
         </div>
