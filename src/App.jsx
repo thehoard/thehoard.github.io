@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import './App.css';
-import ReactCrop from './components/ReactCrop.tsx';
-import ImageEditor from './components/ImageEditor';
-import ArmyContainer from './components/ArmyContainer.jsx';
+import React, { useState } from 'react'
+import './App.css'
+import ReactCrop from './components/ReactCrop.tsx'
+import ImageEditor from './components/ImageEditor'
+import ArmyContainer from './components/ArmyContainer.jsx'
 
 function App() {
 
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState('')
+  const [army, setArmy] = useState([])
 
   function handleImageChange(newImageUrl) {
-    setImageUrl(newImageUrl);
+    setImageUrl(newImageUrl)
+  }
+  function handleArmyChange(newArmy) {
+    setArmy(newArmy)
   }
 
   return (
@@ -17,11 +21,11 @@ function App() {
       <h1 id="mainTitle">Minis-printer</h1>
       <div id="cropContainer">
         <ReactCrop onBlobUrlChange={handleImageChange} />
-        <ImageEditor imageUrl={imageUrl} />
+        <ImageEditor onArmyChange={handleArmyChange} imageUrl={imageUrl}/>
       </div>
-        <ArmyContainer />
+      <ArmyContainer army={army} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

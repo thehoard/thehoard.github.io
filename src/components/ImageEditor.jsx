@@ -1,77 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 function ImageEditor({ imageUrl }) {
-  const [imagePreview, setImagePreview] = useState(null);
-  const [baseImg, setBaseImg] = useState(null);
-  const [Minis, setMinis] = useState([]);
-  const [idCount, setIdCount] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [repeatValue, setRepeatValue] = useState(1);
+  const [imagePreview, setImagePreview] = useState(null)
+  const [baseImg, setBaseImg] = useState(null)
+  const [army, setArmy] = useState([])
+  const [idCount, setIdCount] = useState(1)
+  const [selectedSize, setSelectedSize] = useState(null)
+  const [repeatValue, setRepeatValue] = useState(1)
 
 
   useEffect(() => {
-    const baseImage = new Image();
+    const baseImage = new Image()
     baseImage.onload = () => { //chargement de l'image de la base
-      setBaseImg(baseImage);
-    };
-    baseImage.src = '../src/assets/images/Minibase.svg';
-  }, []);
+      setBaseImg(baseImage)
+    }
+    baseImage.src = '../src/assets/images/Minibase.svg'
+  }, [])
 
   useEffect(() => {
     if (imageUrl && baseImg) {
-      const img = new Image();
+      const img = new Image()
 
       img.onload = () => {
-        const baseWidth = img.width * 0.4; //définition de la taille automatique de la base et des espaces de pliures
-        const baseHeight = img.height * 0.3;
-        const foldStroke = img.height * 0.01;
+        const baseWidth = img.width * 0.4 //définition de la taille automatique de la base et des espaces de pliures
+        const baseHeight = img.height * 0.3
+        const foldStroke = img.height * 0.01
 
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
 
-        canvas.width = (img.width + baseWidth);
-        canvas.height = ((img.height * 2) + (baseHeight * 2) + (foldStroke * 2));
-        const centerXCanvas = ((canvas.width - img.width) / 2);
-        const centerYCanvas = ((canvas.height - ((img.height * 2) + (foldStroke * 2))) / 2);
+        canvas.width = (img.width + baseWidth)
+        canvas.height = ((img.height * 2) + (baseHeight * 2) + (foldStroke * 2))
+        const centerXCanvas = ((canvas.width - img.width) / 2)
+        const centerYCanvas = ((canvas.height - ((img.height * 2) + (foldStroke * 2))) / 2)
 
-        ctx.save();
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.scale(1, -1);
-        ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke));
-        ctx.restore();
-        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke * 2));
-        ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight);
-        ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight);
+        ctx.save()
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.scale(1, -1)
+        ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke))
+        ctx.restore()
+        ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke * 2))
+        ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight)
+        ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
 
-        const dataURL = canvas.toDataURL('image/jpeg');
+        const dataURL = canvas.toDataURL('image/jpeg')
 
-        setImagePreview(dataURL);
-      };
+        setImagePreview(dataURL)
+      }
 
-      img.src = imageUrl;
+      img.src = imageUrl
     }
-  }, [imageUrl, baseImg]);
+  }, [imageUrl, baseImg])
 
   const downloadImage = () => {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = imagePreview;
-    downloadLink.download = 'image.jpg';
-    downloadLink.click();
-  };
+    const downloadLink = document.createElement('a')
+    downloadLink.href = imagePreview
+    downloadLink.download = 'image.jpg'
+    downloadLink.click()
+  }
 
   // Fonction pour ajouter un nouveau Mini au tableau qui servira de base à l'édition du canvas A4.
-  const addImageToList = () => {
+  const addImageToArmy = () => {
     const newMini = {
       id: idCount,
-      image: imagePreview, // Fichier image courant au moment de l'appel de la méthode.
-      number: repeatValue, // nombre de Minis intégrés à l'armée
-      size: selectedSize, //Taille des Minis ajoutés à l'armée
-    };
-    setMinis([...Minis, newMini])
-    setIdCount(idCount + 1) // Incrémente l'ID pour le prochain objet.
-    console.log(Minis)
-  };
+      image: imagePreview,
+      number: repeatValue,
+      size: selectedSize,
+    }
+    const newArmy = [...army, newMini]
+    setArmy(newArmy)
+    setIdCount(idCount + 1)
+    onArmyChange(newArmy) // Appel de la fonction de rappel avec la nouvelle valeur de l'armée
+  }
 
   // Gestionnaire de la taille du Mini
   const handleSizeChange = (event) => {
@@ -102,7 +103,7 @@ function ImageEditor({ imageUrl }) {
               <label id="numberSelectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
-            <button onClick={addImageToList}>Intégrer le Mini à l'armée</button>
+            <button onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
           </div>
           <div id="miniPreview">
             <h3>Prévisualisation du mini :</h3>
@@ -111,7 +112,7 @@ function ImageEditor({ imageUrl }) {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default ImageEditor;
+export default ImageEditor

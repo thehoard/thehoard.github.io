@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react'
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
   Crop,
   PixelCrop,
-} from 'react-image-crop';
-import { canvasPreview } from './CanvasPreview';
-import { useDebounceEffect } from '../../node_modules/react-image-crop/src/demo/useDebounceEffect';
-import 'react-image-crop/dist/ReactCrop.css';
+} from 'react-image-crop'
+import { canvasPreview } from './CanvasPreview'
+import { useDebounceEffect } from '../../node_modules/react-image-crop/src/demo/useDebounceEffect'
+import 'react-image-crop/dist/ReactCrop.css'
 
 interface ReactCropProps {
-  onBlobUrlChange: (blobUrl: string) => void;
+  onBlobUrlChange: (blobUrl: string) => void
 }
 
 
@@ -59,19 +59,19 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
 
   useEffect(() => {
     if (completedCrop && imgRef.current && previewCanvasRef.current) {
-      const image = imgRef.current;
-      // const previewCanvas = previewCanvasRef.current;
+      const image = imgRef.current
+      // const previewCanvas = previewCanvasRef.current
 
-      const scaleX = image.naturalWidth / image.width;
-      const scaleY = image.naturalHeight / image.height;
+      const scaleX = image.naturalWidth / image.width
+      const scaleY = image.naturalHeight / image.height
 
       const offscreen = new OffscreenCanvas(
         completedCrop.width * scaleX,
         completedCrop.height * scaleY
-      );
-      const ctx = offscreen.getContext('2d');
+      )
+      const ctx = offscreen.getContext('2d')
       if (!ctx) {
-        throw new Error('No 2d context');
+        throw new Error('No 2d context')
       }
 
       ctx.drawImage(
@@ -84,17 +84,17 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         0,
         offscreen.width,
         offscreen.height
-      );
+      )
 
       offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
-        const urlCreator = window.URL || window.webkitURL;
-        const imageUrl = urlCreator.createObjectURL(blob);
+        const urlCreator = window.URL || window.webkitURL
+        const imageUrl = urlCreator.createObjectURL(blob)
 
         // on remonte l'image croppée au composant App à chaque changement du crop
-        onBlobUrlChange(imageUrl);
-      });
+        onBlobUrlChange(imageUrl)
+      })
     }
-  }, [completedCrop]);
+  }, [completedCrop])
 
   useDebounceEffect(
     async () => {
