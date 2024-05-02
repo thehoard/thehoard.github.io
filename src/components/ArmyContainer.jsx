@@ -23,7 +23,6 @@ function ArmyContainer({ army }) {
         // Dessiner un rectangle représentant la feuille A4
         ctx.strokeStyle = 'black'
         ctx.strokeRect(0, 0, A4_WIDTH_PX, A4_HEIGHT_PX)
-        console.log(army)
     }, [army])
 
     return (

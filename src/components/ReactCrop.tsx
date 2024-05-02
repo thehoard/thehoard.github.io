@@ -60,7 +60,6 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   useEffect(() => {
     if (completedCrop && imgRef.current && previewCanvasRef.current) {
       const image = imgRef.current
-      // const previewCanvas = previewCanvasRef.current
 
       const scaleX = image.naturalWidth / image.width
       const scaleY = image.naturalHeight / image.height
@@ -85,14 +84,15 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         offscreen.width,
         offscreen.height
       )
+      if (offscreen.height > 0) { //cette condition permet d'éviter la mise à jour du state alors que l'utilisateur n'a pas encore croppé l'image
+        offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
+          const urlCreator = window.URL || window.webkitURL
+          const imageUrl = urlCreator.createObjectURL(blob)
 
-      offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
-        const urlCreator = window.URL || window.webkitURL
-        const imageUrl = urlCreator.createObjectURL(blob)
-
-        // on remonte l'image croppée au composant App à chaque changement du crop
-        onBlobUrlChange(imageUrl)
-      })
+          // on remonte l'image croppée au composant App à chaque changement du crop
+          onBlobUrlChange(imageUrl)
+        })
+      }
     }
   }, [completedCrop])
 
