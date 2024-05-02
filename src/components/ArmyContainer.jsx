@@ -25,6 +25,16 @@ function ArmyContainer({ army }) {
         // Dessiner un rectangle représentant la feuille A4
         ctx.strokeStyle = 'black'
         ctx.strokeRect(0, 0, A4_WIDTH_PX, A4_HEIGHT_PX)
+        army.forEach((mini) => {
+
+            for (let i = 0; i < mini.number; i++) {
+                const image = new Image(); // Instanciation d'une image
+                image.src = mini.image;
+                ctx.drawImage(image, (image.width*i), 0);
+
+            }
+        });
+
     }, [army])
 
     // si army est nul le composant ne s'affiche pas

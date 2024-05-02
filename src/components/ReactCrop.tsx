@@ -84,7 +84,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         offscreen.width,
         offscreen.height
       )
-      if (offscreen.height > 0 || offscreen.width > 0) { //cette condition permet d'éviter la mise à jour du state alors que l'utilisateur n'a pas encore croppé l'image
+      if (offscreen.height > 0 && offscreen.width > 0) { //cette condition permet d'éviter la mise à jour du state alors que l'utilisateur n'a pas encore croppé l'image
         offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
           const urlCreator = window.URL || window.webkitURL
           const imageUrl = urlCreator.createObjectURL(blob)
