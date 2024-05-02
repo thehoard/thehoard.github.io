@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
-function ImageEditor({ imageUrl }) {
+function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
   const [army, setArmy] = useState([])
   const [idCount, setIdCount] = useState(1)
   const [selectedSize, setSelectedSize] = useState(null)
   const [repeatValue, setRepeatValue] = useState(1)
+
 
 
   useEffect(() => {
@@ -71,7 +72,7 @@ function ImageEditor({ imageUrl }) {
     const newArmy = [...army, newMini]
     setArmy(newArmy)
     setIdCount(idCount + 1)
-    onArmyChange(newArmy) // Appel de la fonction de rappel avec la nouvelle valeur de l'armée
+    onArmyChange(newArmy)
   }
 
   // Gestionnaire de la taille du Mini

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 
-function A4Canvas() {
+function ArmyContainer({ army }) {
     const canvasRef = useRef(null)
-    // console.log(army)
+    
     useEffect(() => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
@@ -23,7 +23,8 @@ function A4Canvas() {
         // Dessiner un rectangle représentant la feuille A4
         ctx.strokeStyle = 'black'
         ctx.strokeRect(0, 0, A4_WIDTH_PX, A4_HEIGHT_PX)
-    }, [])
+        console.log(army)
+    }, [army])
 
     return (
         <div id="armyContainer">
@@ -33,4 +34,4 @@ function A4Canvas() {
     )
 }
 
-export default A4Canvas
+export default ArmyContainer
