@@ -25,7 +25,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       img.onload = () => {
         const baseWidth = img.width * 0.4 //définition de la taille automatique de la base et des espaces de pliures
         const baseHeight = img.height * 0.3
-        const foldStroke = img.height * 0.01
+        const foldStroke = 4 // l'espace de pliure est défini à 4 pixels, soit environ 1mm.
 
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
@@ -78,6 +78,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   // Gestionnaire de la taille du Mini
   const handleSizeChange = (event) => {
     setSelectedSize(event.target.value)
+
   }
 
   const handleRepeatChange = (event) => {
