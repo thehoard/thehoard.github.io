@@ -2,8 +2,10 @@ import React, { useRef, useEffect } from 'react'
 
 function ArmyContainer({ army }) {
     const canvasRef = useRef(null)
-    
+
     useEffect(() => {
+        if (!army || army.length === 0) return; // Si army est nul ou vide, le canvas n'est pas créé
+
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
 
@@ -24,6 +26,9 @@ function ArmyContainer({ army }) {
         ctx.strokeStyle = 'black'
         ctx.strokeRect(0, 0, A4_WIDTH_PX, A4_HEIGHT_PX)
     }, [army])
+
+    // si army est nul le composant ne s'affiche pas
+    if (!army || army.length === 0) return null;
 
     return (
         <div id="armyContainer">
