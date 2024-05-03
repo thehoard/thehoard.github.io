@@ -32,13 +32,24 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const SQUARE_PX = mmToPx(25.4)
     const baseWidth = SQUARE_PX * selectedSize
     const baseHeight = baseWidth / 2
-    return {baseWidth, baseHeight}
+    return { baseWidth, baseHeight }
   }
 
 
+  const resizeImage = (img, baseWidth) => {
+    const aspectRatio = img.width / img.height
+    console.log(" aspect ratio : ", aspectRatio)
+    const resizedImageWidth = baseWidth
+    const resizedImageHeight = resizedImageWidth / aspectRatio
+
+    return { resizedImageHeight, resizedImageWidth }
+  }
+
   const drawCanvas = (img, baseImg, selectedSize) => {
 
-    console.log(selectedSize)
+    console.log("largeur native : ", img.width)
+    console.log("hauteur native : ", img.height)
+    console.log("base : ", selectedSize)
 
     const { baseWidth, baseHeight } = calculateBaseSize(selectedSize)
     const foldStroke = 4 // l'espace de pliure est défini à 4 pixels, soit environ 1mm.
@@ -46,18 +57,27 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
 
-    canvas.width = (img.width + baseWidth)
+    const { resizedImageHeight, resizedImageWidth } = resizeImage(img, baseWidth)
+    img.height = resizedImageHeight
+    img.width = resizedImageWidth
+
+    console.log("largeur recalculée : ", img.width)
+    console.log("hauteur recalculée : ", img.height)
+
+    canvas.width = resizedImageWidth
     canvas.height = ((img.height * 2) + (baseHeight * 2) + (foldStroke * 2))
-    const centerXCanvas = ((canvas.width - img.width) / 2)
     const centerYCanvas = ((canvas.height - ((img.height * 2) + (foldStroke * 2))) / 2)
 
+    console.log("baseWidth : ", baseWidth)
+    console.log("canvas.width : ", canvas.width)
+
     ctx.save()
-    ctx.fillStyle = 'white'
+    ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.scale(1, -1)
-    ctx.drawImage(img, centerXCanvas, (-centerYCanvas - img.height - foldStroke))
+    ctx.drawImage(img, 0, (-centerYCanvas - img.height - foldStroke))
     ctx.restore()
-    ctx.drawImage(img, centerXCanvas, (centerYCanvas + img.height + foldStroke * 2))
+    ctx.drawImage(img, 0, (centerYCanvas + img.height + foldStroke * 2))
     ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight)
     ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
 
@@ -104,21 +124,21 @@ function ImageEditor({ imageUrl, onArmyChange }) {
         <div id="armyControls">
           <div id="armyButtons">
             <h2>Choix de la taille</h2>
-            <label><input type="radio" name="size" value="0.25" onChange={handleSizeChange} /> Minuscule (60 cm)</label>
-            <label><input type="radio" name="size" value="1" onChange={handleSizeChange} /> Petit (1.2m)</label>
-            <label><input type="radio" name="size" value="1" onChange={handleSizeChange} /> Moyen (2.5m)</label>
-            <label><input type="radio" name="size" value="4" onChange={handleSizeChange} /> Grand (4.5m)</label>
-            <label><input type="radio" name="size" value="9" onChange={handleSizeChange} /> Énorme (9m)</label>
-            <label><input type="radio" name="size" value="16" onChange={handleSizeChange} /> Gargantuesque (9m et +)</label>
+            <label><input type="radio" name="size" value="0.25" onChange={handleSizeChange} /> Minuscule (1/4 carré)</label>
+            <label><input type="radio" name="size" value="1" onChange={handleSizeChange} /> Petit (1 carré)</label>
+            <label><input type="radio" name="size" value="1" onChange={handleSizeChange} /> Moyen (1 carré)</label>
+            <label><input type="radio" name="size" value="4" onChange={handleSizeChange} /> Grand (4 carrés)</label>
+            <label><input type="radio" name="size" value="9" onChange={handleSizeChange} /> Énorme (9 carrés)</label>
+            <label><input type="radio" name="size" value="16" onChange={handleSizeChange} /> Gargantuesque (16 carrés)</label>
             <div id="numberSelector">
-              <label id="numberSelectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
+              <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
           </div>
           <div id="miniPreview">
             <h3>Prévisualisation du mini :</h3>
-            <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '400px' }} />
+            <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '100%' }} />
           </div>
         </div>
       )}
