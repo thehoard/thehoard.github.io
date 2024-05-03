@@ -5,7 +5,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   const [baseImg, setBaseImg] = useState(null)
   const [army, setArmy] = useState([])
   const [idCount, setIdCount] = useState(1)
-  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
 
   useEffect(() => {
@@ -23,13 +23,24 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
   }, [imageUrl, selectedSize]);
 
+  const mmToPx = (sizeInMm) => {
+    const dpi = window.devicePixelRatio || 1
+    return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
+  }
+
+  const calculateBaseSize = (selectedSize) => {
+    const SQUARE_PX = mmToPx(25.4)
+    const baseWidth = SQUARE_PX * selectedSize
+    const baseHeight = baseWidth / 2
+    return {baseWidth, baseHeight}
+  }
+
 
   const drawCanvas = (img, baseImg, selectedSize) => {
 
     console.log(selectedSize)
 
-    const baseWidth = img.width * 0.4 //définition de la taille automatique de la base et des espaces de pliures
-    const baseHeight = img.height * 0.3
+    const { baseWidth, baseHeight } = calculateBaseSize(selectedSize)
     const foldStroke = 4 // l'espace de pliure est défini à 4 pixels, soit environ 1mm.
 
     const canvas = document.createElement('canvas')
