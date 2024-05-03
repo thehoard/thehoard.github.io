@@ -19,6 +19,15 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   }, [])
 
   useEffect(() => {
+    // Gestionnaire de la taille du Mini
+    const handleSizeChange = (event) => {
+      setSelectedSize(event.target.value)
+
+    }
+  }
+  )
+
+  useEffect(() => {
     if (imageUrl && baseImg) {
       const img = new Image()
 
@@ -75,11 +84,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     onArmyChange(newArmy)
   }
 
-  // Gestionnaire de la taille du Mini
-  const handleSizeChange = (event) => {
-    setSelectedSize(event.target.value)
-
-  }
 
   const handleRepeatChange = (event) => {
     setRepeatValue(event.target.value)
@@ -92,15 +96,12 @@ function ImageEditor({ imageUrl, onArmyChange }) {
         <div id="armyControls">
           <div id="armyButtons">
             <h2>Choix de la taille</h2>
-            <label><input type="radio" name="size" value="XXXS" onChange={handleSizeChange} /> Fine (inférieur à 15cm)</label>
-            <label><input type="radio" name="size" value="XXS" onChange={handleSizeChange} /> Minuscule (15 à 30 cm)</label>
-            <label><input type="radio" name="size" value="XS" onChange={handleSizeChange} /> Très petit (30cm à 60cm)</label>
-            <label><input type="radio" name="size" value="S" onChange={handleSizeChange} /> Petit (60cm à 1.5m)</label>
-            <label><input type="radio" name="size" value="M" onChange={handleSizeChange} /> Moyen (1.5m à 3m)</label>
-            <label><input type="radio" name="size" value="L" onChange={handleSizeChange} /> Grand (3m à 6m)</label>
-            <label><input type="radio" name="size" value="XL" onChange={handleSizeChange} /> Très grand (6m à 12m)</label>
-            <label><input type="radio" name="size" value="XXL" onChange={handleSizeChange} /> Gargantuesque (12m à 24m)</label>
-            <label><input type="radio" name="size" value="XXXL" onChange={handleSizeChange} /> Colossal (24m et plus)</label>
+            <label><input type="radio" name="size" value="0.25" onChange={setSelectedSize} /> Minuscule (60 cm)</label>
+            <label><input type="radio" name="size" value="1" onChange={setSelectedSize} /> Petit (1.2m)</label>
+            <label><input type="radio" name="size" value="1" onChange={setSelectedSize} /> Moyen (2.5m)</label>
+            <label><input type="radio" name="size" value="4" onChange={setSelectedSize} /> Grand (4.5m)</label>
+            <label><input type="radio" name="size" value="9" onChange={setSelectedSize} /> Énorme (9m)</label>
+            <label><input type="radio" name="size" value="16" onChange={setSelectedSize} /> Gargantuesque (9m et +)</label>
             <div id="numberSelector">
               <label id="numberSelectionLabel">Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
