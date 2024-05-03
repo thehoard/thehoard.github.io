@@ -60,7 +60,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
     const { baseWidth, baseHeight } = calculateBaseSize(selectedSize)
     const foldStroke = 2 // l'espace de pliure est défini à 2 pixels, soit environ 0.5mm.
-
     const resizedImage = resizeImage(img, baseWidth) //on créé une nouvelle image redimensionnée
 
     resizedImage.onload = () => { //au chargement de l'image redimensionnée, on la dessine sur le canvas.
@@ -73,7 +72,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       const centerYCanvas = ((canvas.height - ((resizedImage.height * 2) + (foldStroke * 2))) / 2)
 
       ctx.save()
-      ctx.fillStyle = 'black'
+      ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.scale(1, -1)
       ctx.drawImage(resizedImage, 0, (-centerYCanvas - resizedImage.height - foldStroke))
