@@ -23,6 +23,8 @@ function ArmyContainer({ army }) {
         console.log("A4 hauteur en pixels : ", A4_HEIGHT_PX)
         console.log("carré en pixels : ", SQUARE_PX)
         console.log("nombre total de carrés : ", TOTAL_SQUARES_A4)
+        console.log("nombre de carrés en largeur : ", A4_WIDTH_PX / SQUARE_PX)
+        console.log("nombre de carrés en hauteur : ", A4_HEIGHT_PX / SQUARE_PX)
 
         // Définir la taille du canvas en pixels
         canvas.width = A4_WIDTH_PX
@@ -32,20 +34,14 @@ function ArmyContainer({ army }) {
         ctx.strokeStyle = 'black'
         ctx.strokeRect(0, 0, A4_WIDTH_PX, A4_HEIGHT_PX)
 
-        const resizeAndDrawImage = (image) => { //fonction de redimensionnement et dessin de l'image par rapport aux dimensions
-
-            const aspectRatio = image.width / image.height
-            const resizedImageHeight = A4_HEIGHT_PX; // On calcule les futures dimensions de l'image pour définir si elle est placée verticalement ou horizontalement
-            const resizedImageWidth = (resizedImageHeight * aspectRatio)
+        const rotateAndDrawImage = (image) => { //fonction de redimensionnement et dessin de l'image par rapport aux dimensions
 
             console.log("largeur naturelle : ", image.width)
-            console.log("future largeur : ", resizedImageWidth)
             console.log("largeur A4 : ", A4_WIDTH_PX)
+            console.log("hauteur naturelle : ", image.height)
 
-            if (resizedImageWidth > A4_WIDTH_PX) { // Si la future largeur de l'image dépasse celle du Canvas alors on tourne l'image de 90deg
+            if (image.width == 1) { // Si la future largeur de l'image dépasse celle du Canvas alors on tourne l'image de 90deg
 
-                image.height = A4_WIDTH_PX
-                image.width = image.height
                 ctx.save() // on enregistre le contexte vertical du canvas
                 ctx.translate(image.width, 0); // Translation pour positionner l'image
                 ctx.rotate(Math.PI / 2); // Rotation de 90 degrés
@@ -53,7 +49,7 @@ function ArmyContainer({ army }) {
                 ctx.restore() // on remet le canvas à la verticale après déssiné l'image.
 
             } else { // Sinon on la dessine verticalement
-                ctx.drawImage(image, 0, 0, resizedImageWidth, resizedImageHeight)
+                ctx.drawImage(image, 0, 0, image.width, image.height)
             }
         }
 
@@ -63,7 +59,7 @@ function ArmyContainer({ army }) {
                 const image = new Image() // Instanciation d'une image
 
                 image.onload = function () {
-                    resizeAndDrawImage(image)
+                    rotateAndDrawImage(image)
                 }
                 image.src = mini.image
             }

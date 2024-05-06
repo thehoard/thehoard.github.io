@@ -30,15 +30,32 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
   const calculateBaseSize = (selectedSize) => {
     const SQUARE_PX = mmToPx(25.4)
-    const baseWidth = SQUARE_PX * selectedSize
+    const baseWidth = SQUARE_PX * (selectedSize / 2)
     const baseHeight = baseWidth / 2
     return { baseWidth, baseHeight }
   }
 
+  const resizetoA4MaxHeight = (baseWidth, A4_HEIGHT_PX) => {
+    let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
+    let resizedImageWidth = baseWidth
+    return { resizedImageHeight, resizedImageWidth }
+  }
+
   const resizeImage = (img, baseWidth) => {
-    const aspectRatio = img.width / img.height;
-    const resizedImageWidth = baseWidth;
-    const resizedImageHeight = resizedImageWidth / aspectRatio;
+
+    const A4_HEIGHT_MM = 297 //On commence par calculer la hauteur en PX d'une feuille A4 pour vérifier si l'image peux tenir dedans
+    const dpi = window.devicePixelRatio || 1
+    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
+
+    const aspectRatio = img.width / img.height; // on calcule la taille de l'image
+    let resizedImageWidth = baseWidth;
+    let resizedImageHeight = resizedImageWidth / aspectRatio;
+
+    if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX) { // Si l'image est trop haute pour du A4 on la recalcule sous cette contrainte
+      let newSizes = resizetoA4MaxHeight(baseWidth, A4_HEIGHT_PX)
+      resizedImageHeight = newSizes.resizedImageHeight;
+      resizedImageWidth = newSizes.resizedImageWidth;
+    }
 
     const canvas = document.createElement('canvas');
     canvas.width = resizedImageWidth;
@@ -62,7 +79,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const foldStroke = 2 // l'espace de pliure est défini à 2 pixels, soit environ 0.5mm.
     const resizedImage = resizeImage(img, baseWidth) //on créé une nouvelle image redimensionnée
 
-    resizedImage.onload = () => { //au chargement de l'image redimensionnée, on la dessine sur le canvas.
+    resizedImage.onload = () => { //au chargement de l'image redimensionnée, on la dessine sur le canvas de prévisualisation.
 
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
@@ -129,8 +146,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <label><input type="radio" name="size" value='0.5' onChange={handleSizeChange} /> Petit (0.5 carré)</label>
             <label><input type="radio" name="size" value='1' onChange={handleSizeChange} /> Moyen (1 carré)</label>
             <label><input type="radio" name="size" value='4' onChange={handleSizeChange} /> Grand (4 carrés)</label>
-            <label><input type="radio" name="size" value='9' onChange={handleSizeChange} /> Énorme (9 carrés)</label>
-            <label><input type="radio" name="size" value='16' onChange={handleSizeChange} /> Gargantuesque (16 carrés)</label>
+            <label><input type="radio" name="size" value='8' onChange={handleSizeChange} /> Énorme (8 carrés)</label>
             <div id="numberSelector">
               <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
             </div>
