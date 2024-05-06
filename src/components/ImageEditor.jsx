@@ -35,9 +35,9 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     return { baseWidth, baseHeight }
   }
 
-  const resizetoA4MaxHeight = (baseWidth, A4_HEIGHT_PX) => {
+  const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => {
     let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
-    let resizedImageWidth = baseWidth
+    let resizedImageWidth = baseWidth * aspectRatio
     return { resizedImageHeight, resizedImageWidth }
   }
 
@@ -52,7 +52,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     let resizedImageHeight = resizedImageWidth / aspectRatio;
 
     if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX) { // Si l'image est trop haute pour du A4 on la recalcule sous cette contrainte
-      let newSizes = resizetoA4MaxHeight(baseWidth, A4_HEIGHT_PX)
+      let newSizes = resizetoA4MaxHeight(aspectRatio, baseWidth, A4_HEIGHT_PX)
       resizedImageHeight = newSizes.resizedImageHeight;
       resizedImageWidth = newSizes.resizedImageWidth;
     }
@@ -87,14 +87,15 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       canvas.width = baseWidth
       canvas.height = ((resizedImage.height * 2) + (baseHeight * 2) + (foldStroke * 2))
       const centerYCanvas = ((canvas.height - ((resizedImage.height * 2) + (foldStroke * 2))) / 2)
+      const centerXCanvas = (canvas.width - resizedImage.width) / 2
 
       ctx.save()
       ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.scale(1, -1)
-      ctx.drawImage(resizedImage, 0, (-centerYCanvas - resizedImage.height - foldStroke))
+      ctx.drawImage(resizedImage, centerXCanvas, (-centerYCanvas - resizedImage.height - foldStroke))
       ctx.restore()
-      ctx.drawImage(resizedImage, 0, (centerYCanvas + resizedImage.height + foldStroke * 2))
+      ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2))
       ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight)
       ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
 
