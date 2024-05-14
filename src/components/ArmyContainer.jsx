@@ -2,9 +2,16 @@ import React, { useRef, useEffect } from 'react';
 
 function ArmyContainer({ army }) {
     const canvasRef = useRef(null);
+    let rowNumber = 0
+    let imageIteration = 0
+    let placeY = null
+    let placeX = null
+    let remainingRowWidth = null
 
     useEffect(() => {
         if (!army || army.length === 0) return; // Si army est nul ou vide, le canvas n'est pas créé
+
+        army.sort((a, b) => a.imageHeight - b.imageHeight);
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -17,64 +24,81 @@ function ArmyContainer({ army }) {
         ctx.strokeStyle = 'black';
         ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-        army.forEach((mini) => {
-            for (let i = 0; i < mini.number; i++) {
-                const image = new Image(); // Instanciation d'une image
 
-                image.onload = function () {
-                    rotateAndDrawImage(image, canvas);
-                };
-                image.src = mini.image;
+        army.forEach((mini) => {
+            const image = new Image() // Instanciation de l'image du Mini
+            image.onload = function () {
+                let rows = RowsCalculator(mini, canvas, image, remainingRowWidth)
+                let imagesPerRow = rows.imagesPerRow
+
+                for (let i = 0; i < mini.number; i++) { // boucle de dessin du même mini
+                    rotateAndDrawImage(image, imagesPerRow, canvas);
+                }
             }
+            image.src = mini.image;
         });
 
     }, [army]);
-
-
-
-    
 
     const calculateA4CanvasSize = () => {
         // Dimensions d'une feuille A4 en mm
         const A4_WIDTH_MM = 210;
         const A4_HEIGHT_MM = 297;
-        const SQUARE_MM = 25.4;
 
         // Convertir les dimensions en pixels en fonction de la densité de pixels de l'écran
         const dpi = window.devicePixelRatio || 1;
         const A4_WIDTH_PX = Math.floor(A4_WIDTH_MM * dpi * 3.7795); // 1mm = 3.7795 pixels
         const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795); // 1mm = 3.7795 pixels
-        const SQUARE_PX = Math.floor(SQUARE_MM * dpi * 3.7795);
-        const TOTAL_SQUARES_A4 = Math.floor((A4_WIDTH_PX / SQUARE_PX) * (A4_HEIGHT_PX / SQUARE_PX));
-
-        console.log("A4 hauteur en pixels : ", A4_HEIGHT_PX);
-        console.log("carré en pixels : ", SQUARE_PX);
-        console.log("nombre total de carrés : ", TOTAL_SQUARES_A4);
-        console.log("nombre de carrés en largeur : ", A4_WIDTH_PX / SQUARE_PX);
-        console.log("nombre de carrés en hauteur : ", A4_HEIGHT_PX / SQUARE_PX);
+        console.log("A4 canvs width : ", A4_WIDTH_PX)
 
         // Définir la taille du canvas en pixels
         return { A4_WIDTH_PX, A4_HEIGHT_PX };
     };
 
-    const rotateAndDrawImage = (image, canvas) => {
-        //fonction de redimensionnement et dessin de l'image par rapport à ses dimensions
-        console.log("largeur naturelle : ", image.width);
-        console.log("largeur A4 : ", canvas.height);
-        console.log("hauteur naturelle : ", image.height);
+    const rotateAndDrawImage = (image, imagesPerRow, canvas) => { //fonction de redimensionnement et dessin de l'image par rapport à ses dimensions
 
         const ctx = canvasRef.current.getContext('2d'); // Obtenez le contexte 2D du canvas ici
+        const placement = placementCalculator(image, placeX, placeY, imagesPerRow, canvas, remainingRowWidth)
+        placeX = placement.placeX
+        placeY = placement.placeY
 
         if (image.width > canvas.width) { // Si la future largeur de l'image dépasse celle du Canvas alors on tourne l'image de 90deg
             ctx.save(); // on enregistre le contexte vertical du canvas
             ctx.translate(image.width, 0); // Translation pour positionner l'image
             ctx.rotate(Math.PI / 2); // Rotation de 90 degrés
-            ctx.drawImage(image, 0, 0, image.height, image.width); // Dessin de l'image avec les dimensions modifiées
+            ctx.drawImage(image, placeX, placeY, image.height, image.width); // Dessin de l'image avec les dimensions modifiées
             ctx.restore(); // on remet le canvas à la verticale après dessiné l'image.
         } else { // Sinon on la dessine verticalement
-            ctx.drawImage(image, 0, 0, image.width, image.height);
+            ctx.drawImage(image, placeX, placeY, image.width, image.height);
         }
     };
+
+    const RowsCalculator = (mini, canvas, image) => {
+        const imagesPerRow = Math.floor(canvas.width / image.width)
+        const numberOfRows = Math.ceil(mini.number / imagesPerRow)
+        return { numberOfRows, imagesPerRow }
+    }
+
+    const placementCalculator = (image, placeX, placeY, imagesPerRow, canvas, remainingRowWidth) => {
+
+        if (imageIteration >= imagesPerRow) {
+            rowNumber++
+            placeY = image.height * rowNumber
+            placeX = 0
+            imageIteration = 0
+            remainingRowWidth = null
+        }
+        else {
+            placeX = image.width * imageIteration
+            imageIteration++
+            remainingRowWidth = canvas.width - (placeX + image.width)
+            // console.log("remainingRowWidth : ", remainingRowWidth)
+            // console.log("rowNumber : ", rowNumber)
+            // console.log("image height : ", image.height)
+            // console.log("placeY : ", placeY)
+        }
+        return { placeX, placeY }
+    }
 
     // si army est nul le composant ne s'affiche pas
     if (!army || army.length === 0) return null;

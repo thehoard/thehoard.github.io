@@ -7,6 +7,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   const [idCount, setIdCount] = useState(1)
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
+  const [resizedImageHeight, setResizedImageHeight] = useState(null)
 
   useEffect(() => {
     if (imageUrl) {
@@ -56,6 +57,8 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       resizedImageHeight = newSizes.resizedImageHeight;
       resizedImageWidth = newSizes.resizedImageWidth;
     }
+
+    setResizedImageHeight(resizedImageHeight)
 
     const canvas = document.createElement('canvas');
     canvas.width = resizedImageWidth;
@@ -119,12 +122,16 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       id: idCount,
       image: imagePreview,
       number: repeatValue,
-      size: selectedSize,
+      imageHeight: resizedImageHeight
     }
-    const newArmy = [...army, newMini]
-    setArmy(newArmy)
-    setIdCount(idCount + 1)
-    onArmyChange(newArmy)
+  
+    // Créer une copie de l'armée actuelle, y ajouter le nouveau Mini, puis trier par imageHeight
+    const sortedArmy = [...army, newMini].sort((a, b) => a.imageHeight - b.imageHeight);
+  
+    setArmy(sortedArmy);
+    console.log(sortedArmy);
+    setIdCount(idCount + 1);
+    onArmyChange(sortedArmy);
   }
 
 
