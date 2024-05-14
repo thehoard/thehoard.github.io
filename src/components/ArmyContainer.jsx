@@ -11,8 +11,6 @@ function ArmyContainer({ army }) {
     useEffect(() => {
         if (!army || army.length === 0) return; // Si army est nul ou vide, le canvas n'est pas créé
 
-        army.sort((a, b) => a.imageHeight - b.imageHeight);
-
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
@@ -28,7 +26,7 @@ function ArmyContainer({ army }) {
         army.forEach((mini) => {
             const image = new Image() // Instanciation de l'image du Mini
             image.onload = function () {
-                let rows = RowsCalculator(mini, canvas, image, remainingRowWidth)
+                let rows = RowsCalculator(mini, canvas, image, remainingRowWidth) // Calcul du nombre d'images par rang
                 let imagesPerRow = rows.imagesPerRow
 
                 for (let i = 0; i < mini.number; i++) { // boucle de dessin du même mini
@@ -92,10 +90,6 @@ function ArmyContainer({ army }) {
             placeX = image.width * imageIteration
             imageIteration++
             remainingRowWidth = canvas.width - (placeX + image.width)
-            // console.log("remainingRowWidth : ", remainingRowWidth)
-            // console.log("rowNumber : ", rowNumber)
-            // console.log("image height : ", image.height)
-            // console.log("placeY : ", placeY)
         }
         return { placeX, placeY }
     }

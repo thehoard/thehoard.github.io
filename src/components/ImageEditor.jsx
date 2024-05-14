@@ -24,19 +24,19 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
   }, [imageUrl, selectedSize]);
 
-  const mmToPx = (sizeInMm) => {
+  const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
     const dpi = window.devicePixelRatio || 1
     return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
   }
 
-  const calculateBaseSize = (selectedSize) => {
+  const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
     const SQUARE_PX = mmToPx(25.4)
     const baseWidth = SQUARE_PX * (selectedSize / 2)
     const baseHeight = baseWidth / 2
     return { baseWidth, baseHeight }
   }
 
-  const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => {
+  const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
     let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
     let resizedImageWidth = baseWidth * aspectRatio
     return { resizedImageHeight, resizedImageWidth }
@@ -48,7 +48,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const dpi = window.devicePixelRatio || 1
     const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
 
-    const aspectRatio = img.width / img.height; // on calcule la taille de l'image
+    const aspectRatio = img.width / img.height; // on calcule la taille de l'image en préservant le ratio du crop
     let resizedImageWidth = baseWidth;
     let resizedImageHeight = resizedImageWidth / aspectRatio;
 
@@ -60,13 +60,13 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
     setResizedImageHeight(resizedImageHeight)
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement('canvas'); // création d'un canvas pour dessiner l'image redimensionnée
     canvas.width = resizedImageWidth;
     canvas.height = resizedImageHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, resizedImageWidth, resizedImageHeight);
 
-    const resizedImageDataUrl = canvas.toDataURL('image/jpeg');
+    const resizedImageDataUrl = canvas.toDataURL('image/jpeg'); //enregistrement d'un URL pour l'image redimensionnée
 
     const resizedImage = new Image();
     resizedImage.width = resizedImageWidth;
@@ -96,10 +96,10 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.scale(1, -1)
-      ctx.drawImage(resizedImage, centerXCanvas, (-centerYCanvas - resizedImage.height - foldStroke))
+      ctx.drawImage(resizedImage, centerXCanvas, (-centerYCanvas - resizedImage.height - foldStroke)) //dessin de l'image inversée
       ctx.restore()
-      ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2))
-      ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight)
+      ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2)) //dessin de l'image normale
+      ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight) //dessin des bases
       ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
 
       const dataURL = canvas.toDataURL('image/jpeg')
@@ -124,12 +124,11 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       number: repeatValue,
       imageHeight: resizedImageHeight
     }
-  
-    // Créer une copie de l'armée actuelle, y ajouter le nouveau Mini, puis trier par imageHeight
+
+    // Tri des minis en fonction de la hauteur de l'image
     const sortedArmy = [...army, newMini].sort((a, b) => a.imageHeight - b.imageHeight);
-  
+
     setArmy(sortedArmy);
-    console.log(sortedArmy);
     setIdCount(idCount + 1);
     onArmyChange(sortedArmy);
   }
@@ -152,7 +151,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <h2>Choix de la taille</h2>
             <label><input type="radio" name="size" value='0.25' onChange={handleSizeChange} /> Minuscule (1/4 carré)</label>
             <label><input type="radio" name="size" value='0.5' onChange={handleSizeChange} /> Petit (0.5 carré)</label>
-            <label><input type="radio" name="size" value='1' onChange={handleSizeChange} /> Moyen (1 carré)</label>
+            <label><input type="radio" name="size" value='1' onChange={handleSizeChange} checked /> Moyen (1 carré)</label>
             <label><input type="radio" name="size" value='4' onChange={handleSizeChange} /> Grand (4 carrés)</label>
             <label><input type="radio" name="size" value='8' onChange={handleSizeChange} /> Énorme (8 carrés)</label>
             <div id="numberSelector">
