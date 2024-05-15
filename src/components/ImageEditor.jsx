@@ -4,7 +4,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
   const [army, setArmy] = useState([])
-  const [idCount, setIdCount] = useState(1)
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
   const [resizedImageHeight, setResizedImageHeight] = useState(null)
@@ -101,6 +100,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2)) //dessin de l'image normale
       ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight) //dessin des bases
       ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
+      ctx.save()
 
       const dataURL = canvas.toDataURL('image/jpeg')
 
@@ -119,7 +119,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   // Fonction pour ajouter un nouveau Mini au tableau qui servira de base à l'édition du canvas A4.
   const addImageToArmy = () => {
     const newMini = {
-      id: idCount,
       image: imagePreview,
       number: repeatValue,
       imageHeight: resizedImageHeight
@@ -127,10 +126,9 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
     // Tri des minis en fonction de la hauteur de l'image
     const sortedArmy = [...army, newMini].sort((a, b) => a.imageHeight - b.imageHeight);
-
-    setArmy(sortedArmy);
-    setIdCount(idCount + 1);
-    onArmyChange(sortedArmy);
+    console.log("armée : ", sortedArmy)
+    setArmy(sortedArmy)
+    onArmyChange(sortedArmy)
   }
 
 
@@ -151,7 +149,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <h2>Choix de la taille</h2>
             <label><input type="radio" name="size" value='0.25' onChange={handleSizeChange} /> Minuscule (1/4 carré)</label>
             <label><input type="radio" name="size" value='0.5' onChange={handleSizeChange} /> Petit (0.5 carré)</label>
-            <label><input type="radio" name="size" value='1' onChange={handleSizeChange} checked /> Moyen (1 carré)</label>
+            <label><input type="radio" name="size" value='1' onChange={handleSizeChange} /> Moyen (1 carré)</label>
             <label><input type="radio" name="size" value='4' onChange={handleSizeChange} /> Grand (4 carrés)</label>
             <label><input type="radio" name="size" value='8' onChange={handleSizeChange} /> Énorme (8 carrés)</label>
             <div id="numberSelector">
