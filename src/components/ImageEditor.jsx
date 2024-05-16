@@ -131,11 +131,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     onArmyChange(sortedArmy)
   }
 
-
-  const handleRepeatChange = (event) => {
-    setRepeatValue(event.target.value)
-  }
-
   return (
     <div>
       {imagePreview && (
