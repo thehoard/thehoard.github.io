@@ -1,5 +1,25 @@
 import React, { useState, useEffect } from 'react'
 
+const A4_HEIGHT_MM = 297
+
+const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
+  const dpi = window.devicePixelRatio || 1
+  return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
+}
+
+const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
+  const SQUARE_PX = mmToPx(25.4)
+  const baseWidth = SQUARE_PX * (selectedSize / 2)
+  const baseHeight = baseWidth / 2
+  return { baseWidth, baseHeight }
+}
+
+const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
+  let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
+  let resizedImageWidth = baseWidth * aspectRatio
+  return { resizedImageHeight, resizedImageWidth }
+}
+
 function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
@@ -23,27 +43,8 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
   }, [imageUrl, selectedSize]);
 
-  const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
-    const dpi = window.devicePixelRatio || 1
-    return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
-  }
-
-  const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
-    const SQUARE_PX = mmToPx(25.4)
-    const baseWidth = SQUARE_PX * (selectedSize / 2)
-    const baseHeight = baseWidth / 2
-    return { baseWidth, baseHeight }
-  }
-
-  const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
-    let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
-    let resizedImageWidth = baseWidth * aspectRatio
-    return { resizedImageHeight, resizedImageWidth }
-  }
-
   const resizeImage = (img, baseWidth) => {
 
-    const A4_HEIGHT_MM = 297 //On commence par calculer la hauteur en PX d'une feuille A4 pour vérifier si l'image peux tenir dedans
     const dpi = window.devicePixelRatio || 1
     const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
 
@@ -126,7 +127,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
     // Tri des minis en fonction de la hauteur de l'image
     const sortedArmy = [...army, newMini].sort((a, b) => a.imageHeight - b.imageHeight);
-    console.log("armée : ", sortedArmy)
     setArmy(sortedArmy)
     onArmyChange(sortedArmy)
   }
@@ -136,24 +136,19 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     setRepeatValue(event.target.value)
   }
 
-  const handleSizeChange = (event) => {
-    setSelectedSize(event.target.value)
-  }
-
-
   return (
     <div>
       {imagePreview && (
         <div id="armyControls">
           <div id="armyButtons">
             <h2>Choix de la taille</h2>
-            <label><input type="radio" name="size" value='0.25' onChange={handleSizeChange} /> Minuscule (1/4 carré)</label>
-            <label><input type="radio" name="size" value='0.5' onChange={handleSizeChange} /> Petit (0.5 carré)</label>
-            <label><input type="radio" name="size" value='1' onChange={handleSizeChange} /> Moyen (1 carré)</label>
-            <label><input type="radio" name="size" value='4' onChange={handleSizeChange} /> Grand (4 carrés)</label>
-            <label><input type="radio" name="size" value='8' onChange={handleSizeChange} /> Énorme (8 carrés)</label>
+            <label><input type="radio" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
+            <label><input type="radio" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
+            <label><input type="radio" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} /> Moyen (1 carré)</label>
+            <label><input type="radio" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
+            <label><input type="radio" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
             <div id="numberSelector">
-              <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={handleRepeatChange} /></label>
+              <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={event => setRepeatValue(event.target.value)} /></label>
             </div>
             <button onClick={downloadImage}>Télécharger le mini</button>
             <button onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
