@@ -69,9 +69,7 @@ function ArmyContainer({ army }) {
     const DrawImage = (image, cursor) => {
         const ctx = canvasRef.current.getContext('2d')
         console.log(cursor)
-        ctx.save()
         ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
-        ctx.restore()
     }
 
 
