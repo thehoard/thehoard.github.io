@@ -36,7 +36,7 @@ function ArmyContainer({ army }) {
         army.forEach((mini) => {
             const image = new Image() // Instanciation de l'image du Mini
             image.onload = function () {
-                for (let i = 0; i <= mini.number; i++) { // boucle de dessin du même mini
+                for (let i = 0; i < mini.number; i++) { // boucle de dessin du même mini
                     let cursor = cursorCalculator(image, canvas, currentHeight, currentWidth)
                     console.log(i)
                     currentHeight = cursor.currentHeight
@@ -59,6 +59,7 @@ function ArmyContainer({ army }) {
             Y = 0
             currentHeight = 1
             currentWidth++
+            X = currentWidth * image.width
         }
 
         return { X, Y, currentHeight, currentWidth }
