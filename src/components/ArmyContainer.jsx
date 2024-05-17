@@ -17,6 +17,7 @@ const calculateA4CanvasSize = () => {
 
 function ArmyContainer({ army }) {
     const canvasRef = useRef(null)
+    console.log(army)
 
     useEffect(() => {
         if (!army || army.length === 0) return // Si army est nul ou vide, le canvas n'est pas créé
@@ -25,6 +26,8 @@ function ArmyContainer({ army }) {
         const ctx = canvas.getContext('2d')
         let currentHeight = 0
         let currentWidth = 0
+        let previousImageWidth = null
+        let previousImageHeight = null
         const canvasSize = calculateA4CanvasSize()
         canvas.width = canvasSize.A4_WIDTH_PX
         canvas.height = canvasSize.A4_HEIGHT_PX
@@ -36,11 +39,12 @@ function ArmyContainer({ army }) {
         army.forEach((mini) => {
             const image = new Image() // Instanciation de l'image du Mini
             image.onload = function () {
-                for (let i = 0; i < mini.number; i++) { // boucle de dessin du même mini
-                    let cursor = cursorCalculator(image, canvas, currentHeight, currentWidth)
+                for (let i = 1; i <= mini.number; i++) { // boucle de dessin du même mini
+                    let cursor = cursorCalculator(image, canvas, currentHeight, currentWidth, previousImageWidth)
                     currentHeight = cursor.currentHeight
                     currentWidth = cursor.currentWidth
                     DrawImage(image, cursor)
+                    previousImageWidth = image.width //on enregistre la largeur de l'image pour anticiper les changements de minis
                 }
             }
             image.src = mini.image
@@ -48,40 +52,39 @@ function ArmyContainer({ army }) {
 
     }, [army])
 
-    const cursorCalculator = (image, canvas, currentHeight, currentWidth) => {
+    const cursorCalculator = (image, canvas, currentHeight, currentWidth, previousImageWidth) => {
+        let Y = currentHeight
+        let X = currentWidth
 
-        let Y = currentHeight * image.height
-        let X = currentWidth * image.width
-        currentHeight++
-
-        if (Y + image.height > canvas.height) {
+        if (currentHeight + image.height > canvas.height) { //saut de colonne
             Y = 0
-            currentHeight = 1
-            currentWidth++
-            X = currentWidth * image.width
+            currentHeight = 0
+            currentWidth += previousImageWidth // on se base sur la largeur du dernier mini dessiné
         }
 
+        Y = currentHeight
+        X = currentWidth
+        currentHeight += image.height
+
         return { X, Y, currentHeight, currentWidth }
-
     }
-
 
     const DrawImage = (image, cursor) => {
         const ctx = canvasRef.current.getContext('2d')
+        console.log(cursor)
         ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
     }
 
-
     const downloadImage = () => {
-        const canvas = canvasRef.current;
-        const url = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'army.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+        const canvas = canvasRef.current
+        const url = canvas.toDataURL('image/png')
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'army.png'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
 
     // si army est nul le composant ne s'affiche pas
     if (!army || army.length === 0) return null

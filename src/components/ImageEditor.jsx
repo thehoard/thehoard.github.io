@@ -27,6 +27,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
   const [resizedImageHeight, setResizedImageHeight] = useState(null)
+  const [resizedImageWidth, setResizedImageWidth] = useState(null)
 
   useEffect(() => {
     if (imageUrl) {
@@ -59,6 +60,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
 
     setResizedImageHeight(resizedImageHeight)
+    setResizedImageWidth(resizedImageWidth)
 
     const canvas = document.createElement('canvas'); // création d'un canvas pour dessiner l'image redimensionnée
     canvas.width = resizedImageWidth;
@@ -122,11 +124,11 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const newMini = {
       image: imagePreview,
       number: repeatValue,
-      imageHeight: resizedImageHeight
+      imageWidth: resizedImageWidth
     }
 
     // Tri des minis en fonction de la hauteur de l'image
-    const sortedArmy = [...army, newMini].sort((a, b) => a.imageHeight - b.imageHeight);
+    const sortedArmy = [...army, newMini].sort((a, b) => a.imageWidth - b.imageWidth);
     setArmy(sortedArmy)
     onArmyChange(sortedArmy)
   }
