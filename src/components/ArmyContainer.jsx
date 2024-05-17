@@ -17,7 +17,6 @@ const calculateA4CanvasSize = () => {
 
 function ArmyContainer({ army }) {
     const canvasRef = useRef(null)
-    console.log(army)
 
     useEffect(() => {
         if (!army || army.length === 0) return // Si army est nul ou vide, le canvas n'est pas créé
@@ -27,7 +26,6 @@ function ArmyContainer({ army }) {
         let currentHeight = 0
         let currentWidth = 0
         let previousImageWidth = null
-        let previousImageHeight = null
         const canvasSize = calculateA4CanvasSize()
         canvas.width = canvasSize.A4_WIDTH_PX
         canvas.height = canvasSize.A4_HEIGHT_PX
@@ -71,7 +69,6 @@ function ArmyContainer({ army }) {
 
     const DrawImage = (image, cursor) => {
         const ctx = canvasRef.current.getContext('2d')
-        console.log(cursor)
         ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
     }
 
