@@ -144,13 +144,13 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         onDragOver={handleDragOver}
         onClick={handleDropZoneClick}
         style={{
-          border: '2px dashed #cccccc',
+          border: '2px solid black',
           padding: '20px',
           textAlign: 'center',
           cursor: 'pointer'
         }}
       >
-        <p>Drag & Drop an image here or click to select a file</p>
+        <p>déposez votre fichier ici</p>
         <input
           type="file"
           accept="image/*"

@@ -5,10 +5,31 @@
   text-align: center;
 }
 
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-ExtraBold.ttf');
+  font-weight: bolder;
+  font-style: normal;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: normal;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -131,7 +152,7 @@ button:focus-visible {
 }
 
 .baseSelectorRadio {
-  display : none;
+  display: none;
 }
 
 .baseSelector {
