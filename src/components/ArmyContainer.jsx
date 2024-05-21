@@ -5,44 +5,55 @@ const A4_WIDTH_MM = 210
 const A4_HEIGHT_MM = 297
 
 const calculateA4CanvasSize = () => {
-
-    // Convertir les dimensions en pixels en fonction de la densité de pixels de l'écran
     const dpi = window.devicePixelRatio || 1
     const A4_WIDTH_PX = Math.floor(A4_WIDTH_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
     const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
 
-    // Définir la taille du canvas en pixels
     return { A4_WIDTH_PX, A4_HEIGHT_PX }
 }
 
+const createNewCanvas = (containerRef) => {
+    const newCanvas = document.createElement('canvas')
+    const canvasSize = calculateA4CanvasSize()
+    newCanvas.width = canvasSize.A4_WIDTH_PX
+    newCanvas.height = canvasSize.A4_HEIGHT_PX
+    newCanvas.style.border = '1px solid black'
+    containerRef.current.appendChild(newCanvas)
+    return newCanvas
+}
+
+const clearCanvases = (containerRef, canvasRef) => {
+    while (containerRef.current.firstChild) {
+        containerRef.current.removeChild(containerRef.current.firstChild)
+    }
+    canvasRef.current = [] // Clear the canvas reference array
+}
+
 function ArmyContainer({ army }) {
-    const canvasRef = useRef(null)
+
+    const containerRef = useRef(null)
+    const canvasRef = useRef([])
 
     useEffect(() => {
-        if (!army || army.length === 0) return // Si army est nul ou vide, le canvas n'est pas créé
+        if (!army || army.length === 0) return
 
-        const canvas = canvasRef.current
-        const ctx = canvas.getContext('2d')
+        clearCanvases(containerRef, canvasRef) // Suppression des canvas précédents pour éviter les répétitions
+        let canvas = createNewCanvas(containerRef)
+        canvasRef.current.push(canvas)
         let currentHeight = 0
         let currentWidth = 0
         let previousImageWidth = null
-        const canvasSize = calculateA4CanvasSize()
-        canvas.width = canvasSize.A4_WIDTH_PX
-        canvas.height = canvasSize.A4_HEIGHT_PX
-
-        // Dessiner un rectangle représentant la feuille A4
-        ctx.strokeStyle = 'black'
-        ctx.strokeRect(0, 0, canvas.width, canvas.height)
 
         army.forEach((mini) => {
-            const image = new Image() // Instanciation de l'image du Mini
+            const image = new Image()
             image.onload = function () {
                 for (let i = 1; i <= mini.number; i++) { // boucle de dessin du même mini
-                    let cursor = cursorCalculator(image, canvas, currentHeight, currentWidth, previousImageWidth)
+                    let cursor = cursorCalculator(image, currentHeight, currentWidth, previousImageWidth, canvas)
+                    const ctx = canvasRef.current[canvasRef.current.length - 1].getContext('2d') //on sélectionne le dernier canvas dessiné pour y inscrire l'image
+                    ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
                     currentHeight = cursor.currentHeight
                     currentWidth = cursor.currentWidth
-                    DrawImage(image, cursor)
-                    previousImageWidth = image.width //on enregistre la largeur de l'image pour anticiper les changements de minis
+                    previousImageWidth = image.width
                 }
             }
             image.src = mini.image
@@ -50,14 +61,22 @@ function ArmyContainer({ army }) {
 
     }, [army])
 
-    const cursorCalculator = (image, canvas, currentHeight, currentWidth, previousImageWidth) => {
+    const cursorCalculator = (image, currentHeight, currentWidth, previousImageWidth, canvas) => {
         let Y = currentHeight
         let X = currentWidth
 
-        if (currentHeight + image.height > canvas.height) { //saut de colonne
+        if (currentHeight + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
             Y = 0
             currentHeight = 0
-            currentWidth += previousImageWidth // on se base sur la largeur du dernier mini dessiné
+            currentWidth += previousImageWidth || image.width
+        }
+
+        if (currentWidth + image.width > canvas.width) { //création d'un nouveau canvas
+            const newCanvas = createNewCanvas(containerRef)
+            canvasRef.current.push(newCanvas)
+            currentHeight = 0
+            currentWidth = 0
+            previousImageWidth = null
         }
 
         Y = currentHeight
@@ -67,30 +86,27 @@ function ArmyContainer({ army }) {
         return { X, Y, currentHeight, currentWidth }
     }
 
-    const DrawImage = (image, cursor) => {
-        const ctx = canvasRef.current.getContext('2d')
-        ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
+    const downloadImages = () => {
+        canvasRef.current.forEach((canvas, index) => {
+            const url = canvas.toDataURL('image/png')
+            const link = document.createElement('a')
+            link.href = url
+            link.download = `army_page_${index + 1}.png`
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+        })
     }
 
-    const downloadImage = () => {
-        const canvas = canvasRef.current
-        const url = canvas.toDataURL('image/png')
-        const link = document.createElement('a')
-        link.href = url
-        link.download = 'army.png'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
-
-    // si army est nul le composant ne s'affiche pas
     if (!army || army.length === 0) return null
 
     return (
-        <div id="armyContainer">
-            <h2 id="armyContainerTitle">Armée</h2>
-            <canvas ref={canvasRef} />
-            <button onClick={downloadImage}>Télécharger l'armée</button>
+        <div>
+            <div id="canvasControls">
+                <h2 id="armyContainerTitle">Armée</h2>
+                <button onClick={downloadImages}>Télécharger l'armée</button>
+            </div>
+            <div id="armyContainer" ref={containerRef}></div>
         </div>
     )
 }

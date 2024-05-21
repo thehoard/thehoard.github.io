@@ -120,5 +120,12 @@ button:focus-visible {
 }
 
 #armyContainer {
-  margin-top: 5vw;
+  margin-top: 2vw;
+  display:inline-flex;
+  flex-direction: column;
+}
+
+#canvasControls {
+  display: flex;
+  flex-direction: column;
 }
