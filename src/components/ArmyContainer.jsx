@@ -26,7 +26,7 @@ const clearCanvases = (containerRef, canvasRef) => {
     while (containerRef.current.firstChild) {
         containerRef.current.removeChild(containerRef.current.firstChild)
     }
-    canvasRef.current = [] // Clear the canvas reference array
+    canvasRef.current = []
 }
 
 function ArmyContainer({ army }) {
@@ -37,7 +37,7 @@ function ArmyContainer({ army }) {
     useEffect(() => {
         if (!army || army.length === 0) return
 
-        clearCanvases(containerRef, canvasRef) // Suppression des canvas précédents pour éviter les répétitions
+        clearCanvases(containerRef, canvasRef) // Suppression des canvas précédents pour éviter les répétitions en cas d'ajout d'image
         let canvas = createNewCanvas(containerRef)
         canvasRef.current.push(canvas)
         let currentHeight = 0
