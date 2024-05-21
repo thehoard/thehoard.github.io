@@ -23,6 +23,7 @@ const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonct
 function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
+  const [baseImgSrc, setBaseImgSrc] = useState('../src/assets/images/Minibase-grass.svg')
   const [army, setArmy] = useState([])
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
@@ -38,11 +39,11 @@ function ImageEditor({ imageUrl, onArmyChange }) {
           setBaseImg(baseImg);
           drawCanvas(img, baseImg, selectedSize); //à chaque modification de l'image de base ou de la taille, drawImage est appelée
         };
-        baseImg.src = '../src/assets/images/Minibase.svg';
+        baseImg.src = baseImgSrc;
       };
       img.src = imageUrl;
     }
-  }, [imageUrl, selectedSize]);
+  }, [imageUrl, selectedSize, baseImgSrc]);
 
   const resizeImage = (img, baseWidth) => {
 
@@ -133,6 +134,12 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     onArmyChange(sortedArmy)
   }
 
+  const handleBaseChange = (event) => {
+    const newBaseSrc = event.target.value;
+    const baseSrcString = `../src/assets/images/Minibase${newBaseSrc}.svg`;
+    setBaseImgSrc(baseSrcString);
+  };
+
   return (
     <div>
       {imagePreview && (
@@ -144,6 +151,25 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <label><input type="radio" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} /> Moyen (1 carré)</label>
             <label><input type="radio" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
             <label><input type="radio" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
+            <div id="numberSelector">
+              <label id="numberSelectionLabel"><br />Choix du terrain :<br /></label>
+              <label>
+                <input type="radio" name="terrain" value='-grass' class="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" class="baseSelector"/>
+              </label>
+              <label>
+                <input type="radio" name="terrain" value='-sand' class="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" class="baseSelector"/>
+              </label>
+              <label>
+                <input type="radio" name="terrain" value='-cobblestone' class="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" class="baseSelector"/>
+              </label>
+              <label>
+                <input type="radio" name="terrain" value='-lava' class="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" class="baseSelector"/>
+              </label>
+            </div>
             <div id="numberSelector">
               <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={event => setRepeatValue(event.target.value)} /></label>
             </div>
