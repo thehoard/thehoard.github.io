@@ -154,20 +154,20 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <div id="numberSelector">
               <label id="numberSelectionLabel"><br />Choix du terrain :<br /></label>
               <label>
-                <input type="radio" name="terrain" value='-grass' class="baseSelectorRadio" onChange={handleBaseChange} />
-                <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" class="baseSelector"/>
+                <input type="radio" name="terrain" value='-grass' className="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" className="baseSelector"/>
               </label>
               <label>
-                <input type="radio" name="terrain" value='-sand' class="baseSelectorRadio" onChange={handleBaseChange} />
-                <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" class="baseSelector"/>
+                <input type="radio" name="terrain" value='-sand' className="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" className="baseSelector"/>
               </label>
               <label>
-                <input type="radio" name="terrain" value='-cobblestone' class="baseSelectorRadio" onChange={handleBaseChange} />
-                <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" class="baseSelector"/>
+                <input type="radio" name="terrain" value='-cobblestone' className="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" className="baseSelector"/>
               </label>
               <label>
-                <input type="radio" name="terrain" value='-lava' class="baseSelectorRadio" onChange={handleBaseChange} />
-                <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" class="baseSelector"/>
+                <input type="radio" name="terrain" value='-lava' className="baseSelectorRadio" onChange={handleBaseChange} />
+                <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" className="baseSelector"/>
               </label>
             </div>
             <div id="numberSelector">

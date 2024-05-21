@@ -13,7 +13,6 @@ interface ReactCropProps {
   onBlobUrlChange: (blobUrl: string) => void
 }
 
-
 function centerAspectCrop(
   mediaWidth: number,
   mediaHeight: number,
@@ -40,6 +39,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -115,10 +115,49 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
     [completedCrop],
   )
 
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setCrop(undefined) // Makes crop preview update between images.
+      const reader = new FileReader()
+      reader.addEventListener('load', () =>
+        setImgSrc(reader.result?.toString() || ''),
+      )
+      reader.readAsDataURL(e.dataTransfer.files[0])
+      e.dataTransfer.clearData()
+    }
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+  }
+
+  function handleDropZoneClick() {
+    fileInputRef.current?.click()
+  }
+
   return (
     <div className="Crop-Container">
-      <div className="Crop-Controls">
-        <input type="file" accept="image/*" onChange={onSelectFile} />
+      <div
+        className="Crop-Controls"
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onClick={handleDropZoneClick}
+        style={{
+          border: '2px dashed #cccccc',
+          padding: '20px',
+          textAlign: 'center',
+          cursor: 'pointer'
+        }}
+      >
+        <p>Drag & Drop an image here or click to select a file</p>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={onSelectFile}
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+        />
       </div>
       {!!imgSrc && (
         <ReactCrop
