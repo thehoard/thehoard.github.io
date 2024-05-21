@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { jsPDF } from 'jspdf'
 
 // Dimensions d'une feuille A4 en mm
 const A4_WIDTH_MM = 210
@@ -71,7 +72,7 @@ function ArmyContainer({ army }) {
             currentWidth += previousImageWidth || image.width
         }
 
-        if (currentWidth + image.width > canvas.width) { //création d'un nouveau canvas
+        if (currentWidth + previousImageWidth > canvas.width) { //création d'un nouveau canvas
             const newCanvas = createNewCanvas(containerRef)
             canvasRef.current.push(newCanvas)
             currentHeight = 0
@@ -86,16 +87,18 @@ function ArmyContainer({ army }) {
         return { X, Y, currentHeight, currentWidth }
     }
 
-    const downloadImages = () => {
+    const downloadArmy = () => {
+        const doc = new jsPDF('portrait', 'mm', 'a4');
+        
         canvasRef.current.forEach((canvas, index) => {
-            const url = canvas.toDataURL('image/png')
-            const link = document.createElement('a')
-            link.href = url
-            link.download = `army_page_${index + 1}.png`
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-        })
+            const imgData = canvas.toDataURL('image/png');
+            if (index > 0) {
+                doc.addPage();
+            }
+            doc.addImage(imgData, 'PNG', 0, 0, A4_WIDTH_MM, A4_HEIGHT_MM);
+        });
+
+        doc.save('Armée.pdf');
     }
 
     if (!army || army.length === 0) return null
@@ -104,7 +107,7 @@ function ArmyContainer({ army }) {
         <div>
             <div id="canvasControls">
                 <h2 id="armyContainerTitle">Armée</h2>
-                <button onClick={downloadImages}>Télécharger l'armée</button>
+                <button onClick={downloadArmy}>Télécharger l'armée</button>
             </div>
             <div id="armyContainer" ref={containerRef}></div>
         </div>
