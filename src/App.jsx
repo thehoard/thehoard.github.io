@@ -11,10 +11,13 @@ function App() {
 
   return (
     <div>
-      <h1 id="mainTitle">Minis-printer</h1>
+      <div className="logoContainer">
+        <img src="../src/assets/images/Th-Logo-long-blanc.png" alt="Logo The hoard" className="mainLogo" />
+        <h1 id="mainTitle">Minis-printer</h1>
+      </div>
       <div id="cropContainer">
         <ReactCrop onBlobUrlChange={setImageUrl} />
-        <ImageEditor onArmyChange={setArmy} imageUrl={imageUrl}/>
+        <ImageEditor onArmyChange={setArmy} imageUrl={imageUrl} />
       </div>
       <ArmyContainer army={army} />
     </div>

@@ -20,6 +20,9 @@ const createNewCanvas = (containerRef) => {
     newCanvas.height = canvasSize.A4_HEIGHT_PX
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
+    const context = newCanvas.getContext('2d');
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, newCanvas.width, newCanvas.height);
     return newCanvas
 }
 

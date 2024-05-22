@@ -138,6 +138,12 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
 
   return (
     <div className="Crop-Container">
+       {!imgSrc && (
+        <div className="welcomeContainer">
+          <img src='../src/assets/images/welcome-goblin.png'></img>
+          <p>Aucune image sélectionnée. Veuillez uploader une image.</p>
+        </div>
+      )}
       <div
         className="Crop-Controls"
         onDrop={handleDrop}
