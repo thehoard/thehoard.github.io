@@ -1,0 +1,228 @@
+#root {
+  max-width: fit-content;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../src/assets/fonts/Poppins-ExtraBold.ttf');
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Medieval';
+  src: url('../src/assets/fonts/MorrisRoman-Black.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: normal;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-image: url(../src/assets/images/background.jpg);
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+}
+
+.logoContainer {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1vw;
+
+  .mainLogo {
+    width: 50%;
+  }
+
+  h1 {
+    font-size: 3em;
+    line-height: 1.1;
+  }
+
+}
+
+#cropContainer {
+  display: inline-flex;
+  justify-content: center;
+  height: fit-content;
+  width: 100%;
+
+  #homeContainer {
+    display: inline-flex;
+    justify-content: flex-start;
+    height: fit-content;
+    width: 100%;
+
+    #welcomeContainer {
+      display: inline-flex;
+      background-image: url(../src/assets/images/Parchemin.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      padding: 7vw;
+      width: fit-content;
+
+      #welcomeGoblin {
+        display: block;
+        height: 300px;
+        animation: bounce 4s infinite;
+      }
+
+      #welcomeText {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 29vw;
+        font-family: 'Medieval';
+        font-size: 2.2rem;
+        margin-left: 1vw;
+        color: #242424;
+      }
+
+      @keyframes bounce {
+
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+    }
+
+    .portalControl {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      #filePortal {
+        width: 75%;
+        transition: transform 0.5s;
+        border-radius: 50%;
+        animation: rotate 20s linear infinite;
+      }
+
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .sectionTitle {
+    font-size: 2.5rem;
+    font-family: 'medieval', 'poppins';
+    font-weight: bold;
+  }
+
+  #armyControls {
+    display: inline-flex;
+    justify-content: space-evenly;
+    width: 50vw;
+  }
+
+  #miniPreview {
+    text-align: center;
+  }
+
+  #armyButtons {
+    display: inline-flex;
+    flex-direction: column;
+    height: fit-content;
+  }
+
+
+  #numberSelector {
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+  }
+
+  #numberSelectionLabel {
+    font-weight: bold;
+  }
+
+  .baseSelectorRadio {
+    display: none;
+  }
+
+  .baseSelector {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin: 0.2vw;
+  }
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  margin: 1vw;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+#canvasControls {
+  display: flex;
+  flex-direction: column;
+}
+
+#armyContainer {
+  margin-top: 2vw;
+
+  canvas {
+    margin: 0.2vw;
+  }
+}

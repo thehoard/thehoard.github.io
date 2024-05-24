@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './App.css'
+import './App.scss'
 import ReactCrop from './components/ReactCrop.tsx'
 import ImageEditor from './components/ImageEditor'
 import ArmyContainer from './components/ArmyContainer.jsx'

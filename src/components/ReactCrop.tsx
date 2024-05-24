@@ -138,33 +138,51 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
 
   return (
     <div className="Crop-Container">
-       {!imgSrc && (
-        <div className="welcomeContainer">
-          <img src='../src/assets/images/welcome-goblin.png'></img>
-          <p>Aucune image sélectionnée. Veuillez uploader une image.</p>
+      {!imgSrc && (
+        <div id="homeContainer">
+          <div id="welcomeContainer">
+            <img id="welcomeGoblin" src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
+            <p id="welcomeText">Un gobelin vous salue : <br /><br />
+              "L'Aventure vous attend voyageur ! Mais tout aventurier doit avoir des compagnons à ses cotés et adversaires à affronter.
+              Je vais les créer pour vous : Commencez par faire passer une image dans le portail pour la personnaliser et l'ajouter à un parchemin que vous pourrez imprimer.
+              Rassurez-vous : vous pourrez en ajouter d'autres par la suite"</p>
+          </div>
+          <div
+            className="portalControl"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onClick={handleDropZoneClick}
+          >
+            <img src="../src/assets/images/portail.png" id="filePortal" alt="zone d'upload du fichier"></img>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onSelectFile}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+          </div>
         </div>
       )}
-      <div
-        className="Crop-Controls"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={handleDropZoneClick}
-        style={{
-          border: '2px solid black',
-          padding: '20px',
-          textAlign: 'center',
-          cursor: 'pointer'
-        }}
-      >
-        <p>déposez votre fichier ici</p>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={onSelectFile}
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-        />
-      </div>
+      {imgSrc && (
+        <div
+          className="miniPortalControl"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={handleDropZoneClick}
+        >
+          <p className="sectionTitle">Créature</p>
+          <p id="miniPortalLabel">Changer de créature</p>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onSelectFile}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
+        </div>
+      )}
+
       {!!imgSrc && (
         <ReactCrop
           crop={crop}
@@ -175,6 +193,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
           <img
             ref={imgRef}
             alt="Crop me"
+            className="imgUploadCrop"
             src={imgSrc}
             onLoad={onImageLoad}
           />

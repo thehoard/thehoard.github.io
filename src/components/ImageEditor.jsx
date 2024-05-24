@@ -145,6 +145,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       {imagePreview && (
         <div id="armyControls">
           <div id="armyButtons">
+          <p className="sectionTitle">Personnalisation</p>
             <h2>Choix de la taille</h2>
             <label><input type="radio" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
             <label><input type="radio" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
@@ -177,7 +178,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <button onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
           </div>
           <div id="miniPreview">
-            <h3>Prévisualisation du mini :</h3>
+          <p className="sectionTitle">Prévisualisation</p>
             <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '100%' }} />
           </div>
         </div>
