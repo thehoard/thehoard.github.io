@@ -4,20 +4,21 @@ import { jsPDF } from 'jspdf'
 // Dimensions d'une feuille A4 en mm
 const A4_WIDTH_MM = 210
 const A4_HEIGHT_MM = 297
+const PIXELS_IN_MM = 3.7795
 
 const calculateA4CanvasSize = () => {
     const dpi = window.devicePixelRatio || 1
-    const A4_WIDTH_PX = Math.floor(A4_WIDTH_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
-    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
+    const A4_WIDTH_PX = Math.floor(A4_WIDTH_MM * dpi * PIXELS_IN_MM)
+    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * PIXELS_IN_MM)
 
     return { A4_WIDTH_PX, A4_HEIGHT_PX }
 }
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
-    const canvasSize = calculateA4CanvasSize()
-    newCanvas.width = canvasSize.A4_WIDTH_PX
-    newCanvas.height = canvasSize.A4_HEIGHT_PX
+    const dpi = window.devicePixelRatio || 1
+    newCanvas.width = Math.floor(A4_WIDTH_MM * dpi * PIXELS_IN_MM)
+    newCanvas.height = Math.floor(A4_HEIGHT_MM * dpi * PIXELS_IN_MM)
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
     return newCanvas
@@ -89,7 +90,7 @@ function ArmyContainer({ army }) {
 
     const downloadArmy = () => {
         const doc = new jsPDF('portrait', 'mm', 'a4');
-        
+
         canvasRef.current.forEach((canvas, index) => {
             const imgData = canvas.toDataURL('image/png');
             if (index > 0) {

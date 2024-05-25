@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 const A4_HEIGHT_MM = 297
+const PIXELS_IN_MM = 3.7795
 
 const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
   const dpi = window.devicePixelRatio || 1
-  return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
+  return Math.floor(sizeInMm * dpi * PIXELS_IN_MM)
 }
 
 const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
