@@ -22,6 +22,9 @@ function ArmyContainer({ army }) {
 
     const containerRef = useRef(null)
     const canvasRef = useRef([])
+    let previousImageWidth = null
+    let currentHeight = 0
+    let currentWidth = 0
 
     useEffect(() => {
         if (!army || army.length === 0) return
@@ -29,9 +32,6 @@ function ArmyContainer({ army }) {
         clearCanvases(containerRef, canvasRef) // Suppression des canvas précédents pour éviter les répétitions en cas d'ajout d'image
         let canvas = createNewCanvas(containerRef)
         canvasRef.current.push(canvas)
-        let currentHeight = 0
-        let currentWidth = 0
-        let previousImageWidth = null
 
         army.forEach((mini) => {
             const image = new Image()
