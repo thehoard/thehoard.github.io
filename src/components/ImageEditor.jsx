@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { mmToPx, A4_HEIGHT_PX } from '../utils/util'
 
-const A4_HEIGHT_MM = 297
-const PIXELS_IN_MM = 3.7795
-
-const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
-  const dpi = window.devicePixelRatio || 1
-  return Math.floor(sizeInMm * dpi * PIXELS_IN_MM)
-}
+const INCHES_TO_MM = 25.4 //les bases D&D sont exprimées en pouces, on les traduit en MM
 
 const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
-  const SQUARE_PX = mmToPx(25.4)
+  const SQUARE_PX = mmToPx(INCHES_TO_MM)
   const baseWidth = SQUARE_PX * (selectedSize / 2)
   const baseHeight = baseWidth / 2
   return { baseWidth, baseHeight }
@@ -46,9 +41,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   }, [imageUrl, selectedSize]);
 
   const resizeImage = (img, baseWidth) => {
-
-    const dpi = window.devicePixelRatio || 1
-    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
 
     const aspectRatio = img.width / img.height; // on calcule la taille de l'image en préservant le ratio du crop
     let resizedImageWidth = baseWidth;

@@ -1,24 +1,11 @@
 import React, { useRef, useEffect } from 'react'
 import { jsPDF } from 'jspdf'
-
-// Dimensions d'une feuille A4 en mm
-const A4_WIDTH_MM = 210
-const A4_HEIGHT_MM = 297
-const PIXELS_IN_MM = 3.7795
-
-const calculateA4CanvasSize = () => {
-    const dpi = window.devicePixelRatio || 1
-    const A4_WIDTH_PX = Math.floor(A4_WIDTH_MM * dpi * PIXELS_IN_MM)
-    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * PIXELS_IN_MM)
-
-    return { A4_WIDTH_PX, A4_HEIGHT_PX }
-}
+import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM } from '../utils/util'
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
-    const dpi = window.devicePixelRatio || 1
-    newCanvas.width = Math.floor(A4_WIDTH_MM * dpi * PIXELS_IN_MM)
-    newCanvas.height = Math.floor(A4_HEIGHT_MM * dpi * PIXELS_IN_MM)
+    newCanvas.width = A4_WIDTH_PX
+    newCanvas.height = A4_HEIGHT_PX
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
     return newCanvas
@@ -52,7 +39,7 @@ function ArmyContainer({ army }) {
                 for (let i = 1; i <= mini.number; i++) { // boucle de dessin du même mini
                     let cursor = cursorCalculator(image, currentHeight, currentWidth, previousImageWidth, canvas)
                     const ctx = canvasRef.current[canvasRef.current.length - 1].getContext('2d') //on sélectionne le dernier canvas dessiné pour y inscrire l'image
-                    ctx.drawImage(image, cursor.X, cursor.Y, image.width, image.height)
+                    ctx.drawImage(image, cursor.cursorXPos, cursor.cursorYPos, image.width, image.height)
                     currentHeight = cursor.currentHeight
                     currentWidth = cursor.currentWidth
                     previousImageWidth = image.width
@@ -64,11 +51,11 @@ function ArmyContainer({ army }) {
     }, [army])
 
     const cursorCalculator = (image, currentHeight, currentWidth, previousImageWidth, canvas) => {
-        let Y = currentHeight
-        let X = currentWidth
+        let cursorYPos = currentHeight
+        let cursorXPos = currentWidth
 
         if (currentHeight + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
-            Y = 0
+            cursorYPos = 0
             currentHeight = 0
             currentWidth += previousImageWidth || image.width
         }
@@ -81,11 +68,11 @@ function ArmyContainer({ army }) {
             previousImageWidth = null
         }
 
-        Y = currentHeight
-        X = currentWidth
+        cursorYPos = currentHeight
+        cursorXPos = currentWidth
         currentHeight += image.height
 
-        return { X, Y, currentHeight, currentWidth }
+        return { cursorXPos, cursorYPos, currentHeight, currentWidth }
     }
 
     const downloadArmy = () => {
