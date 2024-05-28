@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { jsPDF } from 'jspdf'
-import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM } from '../utils/util'
+import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM } from '../utils/util'
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
