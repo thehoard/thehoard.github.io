@@ -120,10 +120,11 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       imageWidth: resizedImageWidth
     }
 
-    // Tri des minis en fonction de la hauteur de l'image
-    const sortedArmy = [...army, newMini].sort((a, b) => a.imageWidth - b.imageWidth);
+    // Tri des minis en fonction de la largeur de l'image
+    const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth)
     setArmy(sortedArmy)
     onArmyChange(sortedArmy)
+    console.log(sortedArmy)
   }
 
   return (

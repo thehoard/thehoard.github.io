@@ -22,9 +22,9 @@ function ArmyContainer({ army }) {
 
     const containerRef = useRef(null)
     const canvasRef = useRef([])
-    let previousImageWidth = null
-    let currentHeight = 0
-    let currentWidth = 0
+    let currentLineMaxHeight = 0
+    let currentXPos = 0
+    let currentYPos = 0
 
     useEffect(() => {
         if (!army || army.length === 0) return
@@ -35,45 +35,39 @@ function ArmyContainer({ army }) {
 
         army.forEach((mini) => {
             const image = new Image()
+
             image.onload = function () {
                 for (let i = 1; i <= mini.number; i++) { // boucle de dessin du même mini
-                    let cursor = cursorCalculator(image, currentHeight, currentWidth, previousImageWidth, canvas)
+                    let nextXPos = currentXPos
+                    let nextYPos = currentYPos
+
+                    if (nextXPos + image.width > canvas.width) {
+                        nextXPos = 0
+                        nextYPos += currentLineMaxHeight
+                        currentLineMaxHeight = 0
+                    }
+
+                    if (nextYPos + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
+                        nextXPos = 0
+                        nextYPos = 0
+                        //création d'un nouveau canvas
+                        const newCanvas = createNewCanvas(containerRef)
+                        canvasRef.current.push(newCanvas)
+                    }
+
                     const ctx = canvasRef.current[canvasRef.current.length - 1].getContext('2d') //on sélectionne le dernier canvas dessiné pour y inscrire l'image
-                    ctx.drawImage(image, cursor.cursorXPos, cursor.cursorYPos, image.width, image.height)
-                    currentHeight = cursor.currentHeight
-                    currentWidth = cursor.currentWidth
-                    previousImageWidth = image.width
+                    ctx.drawImage(image, nextXPos, nextYPos, image.width, image.height)
+
+                    currentXPos = nextXPos + image.width
+                    currentYPos = nextYPos
+                    currentLineMaxHeight = Math.max(currentLineMaxHeight, image.height)
                 }
             }
+
             image.src = mini.image
         })
 
     }, [army])
-
-    const cursorCalculator = (image, currentHeight, currentWidth, previousImageWidth, canvas) => {
-        let cursorYPos = currentHeight
-        let cursorXPos = currentWidth
-
-        if (currentHeight + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
-            cursorYPos = 0
-            currentHeight = 0
-            currentWidth += previousImageWidth || image.width
-        }
-
-        if (currentWidth + previousImageWidth > canvas.width) { //création d'un nouveau canvas
-            const newCanvas = createNewCanvas(containerRef)
-            canvasRef.current.push(newCanvas)
-            currentHeight = 0
-            currentWidth = 0
-            previousImageWidth = null
-        }
-
-        cursorYPos = currentHeight
-        cursorXPos = currentWidth
-        currentHeight += image.height
-
-        return { cursorXPos, cursorYPos, currentHeight, currentWidth }
-    }
 
     const downloadArmy = () => {
         const doc = new jsPDF('portrait', 'mm', 'a4');
