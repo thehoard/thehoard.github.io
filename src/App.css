@@ -25,6 +25,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -53,9 +54,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -66,10 +69,63 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+#armyControls {
+  display: inline-flex;
+  justify-content: space-evenly;
+  width: 50vw;
+}
+
+#miniPreview {
+  text-align: center;
+}
+
+#armyButtons {
+  display: inline-flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+#cropContainer {
+  display: inline-flex;
+  justify-content: space-evenly;
+  height: fit-content;
+  width: 100%;
+}
+
+#numberSelector {
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
+#numberSelectionLabel {
+  font-weight: bold;
+}
+
+#armyContainer {
+  margin-top: 2vw;
+  display:inline-flex;
+  flex-direction: column;
+}
+
+#canvasControls {
+  display: flex;
+  flex-direction: column;
 }
