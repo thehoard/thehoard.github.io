@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { mmToPx, A4_HEIGHT_PX } from '../utils/util'
 
-const A4_HEIGHT_MM = 297
-
-const mmToPx = (sizeInMm) => { // fonction pour traduire les millimetres en pixels
-  const dpi = window.devicePixelRatio || 1
-  return Math.floor(sizeInMm * dpi * 3.7795) // 1mm = 3.7795 pixels
-}
+const INCHES_TO_MM = 25.4 //les bases D&D sont exprimées en pouces, on les traduit en MM
 
 const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
-  const SQUARE_PX = mmToPx(25.4)
+  const SQUARE_PX = mmToPx(INCHES_TO_MM)
   const baseWidth = SQUARE_PX * (selectedSize / 2)
   const baseHeight = baseWidth / 2
   return { baseWidth, baseHeight }
@@ -23,7 +19,6 @@ const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonct
 function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
-  const [baseImgSrc, setBaseImgSrc] = useState('../src/assets/images/Minibase-grass.svg')
   const [army, setArmy] = useState([])
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
@@ -39,16 +34,13 @@ function ImageEditor({ imageUrl, onArmyChange }) {
           setBaseImg(baseImg);
           drawCanvas(img, baseImg, selectedSize); //à chaque modification de l'image de base ou de la taille, drawImage est appelée
         };
-        baseImg.src = baseImgSrc;
+        baseImg.src = '../src/assets/images/Minibase.svg';
       };
       img.src = imageUrl;
     }
-  }, [imageUrl, selectedSize, baseImgSrc]);
+  }, [imageUrl, selectedSize]);
 
   const resizeImage = (img, baseWidth) => {
-
-    const dpi = window.devicePixelRatio || 1
-    const A4_HEIGHT_PX = Math.floor(A4_HEIGHT_MM * dpi * 3.7795) // 1mm = 3.7795 pixels
 
     const aspectRatio = img.width / img.height; // on calcule la taille de l'image en préservant le ratio du crop
     let resizedImageWidth = baseWidth;
@@ -127,18 +119,12 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       number: repeatValue,
       imageWidth: resizedImageWidth
     }
-
-    // Tri des minis en fonction de la hauteur de l'image
-    const sortedArmy = [...army, newMini].sort((a, b) => a.imageWidth - b.imageWidth);
+    // Tri des minis en fonction de la largeur de l'image
+    const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth)
     setArmy(sortedArmy)
     onArmyChange(sortedArmy)
+    console.log(sortedArmy)
   }
-
-  const handleBaseChange = (event) => {
-    const newBaseSrc = event.target.value;
-    const baseSrcString = `../src/assets/images/Minibase${newBaseSrc}.svg`;
-    setBaseImgSrc(baseSrcString);
-  };
 
   return (
     <div>

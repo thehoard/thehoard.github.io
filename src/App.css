@@ -121,13 +121,18 @@ button:focus-visible {
 
 #armyContainer {
   margin-top: 2vw;
+<<<<<<< HEAD
   display: inline-flex;
+=======
+  display:inline-flex;
+>>>>>>> main
   flex-direction: column;
 }
 
 #canvasControls {
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
 }
 
 .baseSelectorRadio {
@@ -139,4 +144,6 @@ button:focus-visible {
   height: 50px;
   cursor: pointer;
   margin: 0.2vw;
+=======
+>>>>>>> main
 }
