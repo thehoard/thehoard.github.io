@@ -3,6 +3,16 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 2;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @font-face {
@@ -33,22 +43,6 @@
   font-style: normal;
 }
 
-:root {
-  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: normal;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-
 body {
   margin: 0;
   display: flex;
@@ -68,13 +62,13 @@ body {
 
   .mainLogo {
     width: 50%;
+    margin-bottom: 1vw;
   }
 
   h1 {
-    font-size: 3em;
-    line-height: 1.1;
+    font-size: 3rem;
+    font-weight: bolder;
   }
-
 }
 
 #cropContainer {
@@ -113,7 +107,7 @@ body {
         flex-direction: column;
         width: 29vw;
         font-family: 'Medieval';
-        font-size: 2.2rem;
+        font-size: 2rem;
         margin-left: 1vw;
         color: #242424;
       }
@@ -177,6 +171,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     height: fit-content;
+    margin-left: -8%;
   }
 
 

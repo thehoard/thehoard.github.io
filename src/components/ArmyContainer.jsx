@@ -20,9 +20,9 @@ const createNewCanvas = (containerRef) => {
     newCanvas.height = canvasSize.A4_HEIGHT_PX
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
-    const context = newCanvas.getContext('2d');
-    context.fillStyle = 'white';
-    context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+    const context = newCanvas.getContext('2d')
+    context.fillStyle = '#FCF5E5'
+    context.fillRect(0, 0, newCanvas.width, newCanvas.height)
     return newCanvas
 }
 
@@ -92,7 +92,7 @@ function ArmyContainer({ army }) {
 
     const downloadArmy = () => {
         const doc = new jsPDF('portrait', 'mm', 'a4');
-        
+
         canvasRef.current.forEach((canvas, index) => {
             const imgData = canvas.toDataURL('image/png');
             if (index > 0) {
@@ -110,7 +110,7 @@ function ArmyContainer({ army }) {
         <div>
             <div id="canvasControls">
                 <h2 id="armyContainerTitle">Armée</h2>
-                <button onClick={downloadArmy}>Télécharger l'armée</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" onClick={downloadArmy}>Télécharger l'armée</button>
             </div>
             <div id="armyContainer" ref={containerRef}></div>
         </div>

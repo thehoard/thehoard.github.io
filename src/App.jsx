@@ -3,6 +3,7 @@ import './App.scss'
 import ReactCrop from './components/ReactCrop.tsx'
 import ImageEditor from './components/ImageEditor'
 import ArmyContainer from './components/ArmyContainer.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
 

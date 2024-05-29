@@ -174,8 +174,8 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <div id="numberSelector">
               <label id="numberSelectionLabel"><br />Nombre de Minis à intégrer :<br /><input type="number" value={repeatValue} onChange={event => setRepeatValue(event.target.value)} /></label>
             </div>
-            <button onClick={downloadImage}>Télécharger le mini</button>
-            <button onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
+            <button type="button" className="btn btn-primary btn-lg" onClick={downloadImage}>Télécharger le mini</button>
+            <button type="button" className="btn btn-primary btn-lg" onClick={addImageToArmy}>Intégrer le Mini à l'armée</button>
           </div>
           <div id="miniPreview">
           <p className="sectionTitle">Prévisualisation</p>
