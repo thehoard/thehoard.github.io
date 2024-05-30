@@ -165,20 +165,15 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         </div>
       )}
       {imgSrc && (
-        <div
-          className="miniPortalControl"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={handleDropZoneClick}
-        >
+        <div className="miniPortalControl">
           <p className="sectionTitle">Créature</p>
-          <p id="miniPortalLabel">Changer de créature</p>
+          <button id="miniPortalLabel" className="btn btn-primary btn-lg custom-btn" onClick={handleDropZoneClick}>Changer de créature</button>
           <input
             type="file"
             accept="image/*"
             onChange={onSelectFile}
             ref={fileInputRef}
-            className="btn btn-primary btn-lg"
+            style={{ display: 'none' }}
           />
         </div>
       )}
