@@ -54,6 +54,36 @@ body {
   background-repeat: repeat-y;
 }
 
+.custom-btn {
+  background-color: transparent !important;
+  background-image: url(../src/assets/images/buttons.png) !important;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  padding: 5% !important;
+  border: none !important;
+  border-radius: 0% !important;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-btn:hover {
+  background-image: url(../src/assets/images/buttons-hover.png) !important;
+}
+
+.custom-btn:active {
+  background-image: url(../src/assets/images/buttons-click.png) !important;
+}
+
+.custom-army-btn {
+  max-width: fit-content;
+  padding: 2% !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
 .logoContainer {
   width: 60%;
   margin-left: auto;

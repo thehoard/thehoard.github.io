@@ -92,7 +92,7 @@ function ArmyContainer({ army }) {
         <div>
             <div id="canvasControls">
                 <h2 id="armyContainerTitle">Armée</h2>
-                <button type="button" class="btn btn-primary btn-lg btn-block" onClick={downloadArmy}>Télécharger l'armée</button>
+                <button type="button" className="btn btn-primary btn-lg custom-btn custom-army-btn" onClick={downloadArmy}>Télécharger l'armée</button>
             </div>
             <div id="armyContainer" ref={containerRef}></div>
         </div>
