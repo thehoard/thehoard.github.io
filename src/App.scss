@@ -1,27 +1,27 @@
 @font-face {
   font-family: 'Poppins';
-  src: url('../src/assets/fonts/Poppins-Regular.ttf');
+  src: url('../src/assets/fonts/Poppins-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins';
-  src: url('../src/assets/fonts/Poppins-Bold.ttf');
+  src: url('../src/assets/fonts/Poppins-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins';
-  src: url('../src/assets/fonts/Poppins-ExtraBold.ttf');
+  src: url('../src/assets/fonts/Poppins-ExtraBold.ttf') format('truetype');
   font-weight: bolder;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Medieval';
-  src: url('../src/assets/fonts/MorrisRoman-Black.ttf');
+  src: url('../src/assets/fonts/MorrisRoman-Black.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -31,16 +31,15 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-
   font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 2;
   font-weight: normal;
   color: rgba(255, 255, 255, 0.87);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -moz-font-smoothing: antialiased;
 }
 
 body {
@@ -82,28 +81,28 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1vw;
+}
 
-  .mainLogo {
-    width: 50%;
-    margin-bottom: 1vw;
-  }
+.logoContainer .mainLogo {
+  width: 50%;
+  margin-bottom: 1vw;
+}
 
-  h1 {
-    font-size: 3rem;
-    font-weight: bolder;
-    color: #502f20;
-    width: fit-content;
-    padding-top: 4%;
-    padding-bottom: 2%;
-    padding-left: 16%;
-    padding-right: 17%;
-    margin-left: auto;
-    margin-right: auto;
-    background-image: url(../src/assets/images/parchment-banner.png) !important;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
+.logoContainer h1 {
+  font-size: 3rem;
+  font-weight: bolder;
+  color: #502f20;
+  width: fit-content;
+  padding-top: 4%;
+  padding-bottom: 2%;
+  padding-left: 16%;
+  padding-right: 17%;
+  margin-left: auto;
+  margin-right: auto;
+  background-image: url(../src/assets/images/parchment-banner.png) !important;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #interfaceContainer {
@@ -111,186 +110,187 @@ body {
   justify-content: center;
   height: fit-content;
   width: 100%;
+}
 
-  #homeContainer {
-    display: inline-flex;
-    justify-content: flex-start;
-    height: fit-content;
-    width: 100%;
+#homeContainer {
+  display: inline-flex;
+  justify-content: flex-start;
+  height: fit-content;
+  width: 100%;
+}
 
-    #welcomeContainer {
-      display: inline-flex;
-      background-image: url(../src/assets/images/Parchemin.png);
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      justify-content: center;
-      text-align: center;
-      align-items: center;
-      padding: 7vw;
-      width: fit-content;
+#welcomeContainer {
+  display: inline-flex;
+  background-image: url(../src/assets/images/Parchemin.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 7vw;
+  width: fit-content;
+}
 
-      #welcomeGoblin {
-        display: block;
-        height: 300px;
-        animation: bounce 4s infinite;
-      }
+#welcomeContainer #welcomeGoblin {
+  display: block;
+  height: 300px;
+  animation: bounce 4s infinite;
+}
 
-      #welcomeText {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        width: 29vw;
-        font-family: 'Medieval';
-        font-size: 2rem;
-        margin-left: 1vw;
-        color: #242424;
-      }
+#welcomeContainer #welcomeText {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 29vw;
+  font-family: 'Medieval';
+  font-size: 2rem;
+  margin-left: 1vw;
+  color: #242424;
+}
 
-      @keyframes bounce {
+@keyframes bounce {
 
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-    }
-
-    .portalControl {
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      #filePortal {
-        width: 75%;
-        transition: transform 0.5s;
-        border-radius: 50%;
-        animation: rotate 20s linear infinite;
-      }
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
-  .sectionTitle {
-    font-size: 3rem;
-    font-family: 'medieval', 'poppins';
-    font-weight: bold;
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.portalControl {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.portalControl #filePortal {
+  width: 75%;
+  transition: transform 0.5s;
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
 
-  #customizationAndPreviewContainer {
-    display: inline-flex;
-    justify-content: space-evenly;
-
-    #customizationButtons {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      margin-left: 6vw;
-      margin-right: 6vw;
-
-      #BaseSelector {
-        margin-top: 1vw;
-
-        #baseButtonsContainer {
-          display: block;
-          background-color: rgba(255, 153, 0, 0.327);
-          border-radius: 10px;
-          padding: 10px;
-          margin-top: 1vw;
-          margin-bottom: 1vw;
-
-          .baseSelectorRadio {
-            display: none;
-          }
-
-          .baseSelector {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            cursor: pointer;
-            margin: 0.2vw;
-          }
-        }
-      }
-
-      #numberSelector {
-        margin-top: 1vw;
-        margin-bottom: 1vw;
-
-        #numberSelectionLabel {
-          display: inline-flex;
-          flex-direction: column;
-          align-items: center;
-          font-size: 1.5rem;
-
-          input[type="number"] {
-            background-color: #FCF5E5;
-            color: #242424;
-            width: 100px;
-            text-align: center;
-            border-radius: 5px;
-          }
-
-          input[type="number"]::-webkit-inner-spin-button,
-          input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-        }
-      }
-    }
-
-    #miniPreview {
-      text-align: center;
-      width: 320px;
-    }
+  to {
+    transform: rotate(360deg);
   }
+}
+
+.sectionTitle {
+  font-size: 3rem;
+  font-family: 'Medieval', 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+#customizationAndPreviewContainer {
+  display: inline-flex;
+  justify-content: space-evenly;
+}
+
+#customizationButtons {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 6vw;
+  margin-right: 6vw;
+}
+
+#BaseSelector {
+  margin-top: 1vw;
+}
+
+#baseButtonsContainer {
+  display: block;
+  background-color: rgba(255, 153, 0, 0.327);
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
+.baseSelectorRadio {
+  display: none;
+}
+
+.baseSelector {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  cursor: pointer;
+  margin: 0.2vw;
+}
+
+#numberSelector {
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
+#numberSelectionLabel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+#numberSelectionLabel input[type="number"] {
+  background-color: #FCF5E5;
+  color: #242424;
+  width: 100px;
+  text-align: center;
+  border-radius: 5px;
+  -moz-appearance: textfield;
+}
+
+#numberSelectionLabel input[type="number"]::-webkit-inner-spin-button,
+#numberSelectionLabel input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#miniPreview {
+  text-align: center;
+  width: 320px;
 }
 
 #canvasControls {
   display: flex;
   flex-direction: column;
+}
 
-  #armyContainerTitle {
-    font-size: 2rem;
-    font-weight: bolder;
-    color: #502f20;
-    width: 320px;
-    padding-top: 2%;
-    padding-bottom: 1.3%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1vw;
-    background-image: url(../src/assets/images/parchment-banner.png) !important;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
+#armyContainerTitle {
+  font-size: 2rem;
+  font-weight: bolder;
+  color: #502f20;
+  width: 320px;
+  padding-top: 2%;
+  padding-bottom: 1.3%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1vw;
+  background-image: url(../src/assets/images/parchment-banner.png) !important;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-  .custom-army-btn {
-    max-width: fit-content;
-    padding: 2% !important;
-    margin-right: auto;
-    margin-left: auto;
-  }
+.custom-army-btn {
+  max-width: fit-content;
+  padding: 2% !important;
+  margin-right: auto;
+  margin-left: auto;
+}
 
-  #armyContainer {
-    margin-top: 2vw;
-  }
+#armyContainer {
+  margin-top: 2vw;
 }
 
 canvas {
