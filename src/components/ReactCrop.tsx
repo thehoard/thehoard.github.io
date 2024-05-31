@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import ReactCrop, {
-  centerCrop,
-  makeAspectCrop,
   Crop,
   PixelCrop,
 } from 'react-image-crop'
@@ -17,8 +15,6 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
-  const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
-  const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
   const fileInputRef = useRef<HTMLInputElement>(null)

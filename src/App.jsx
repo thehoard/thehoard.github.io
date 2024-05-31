@@ -13,7 +13,9 @@ function App() {
   return (
     <div>
       <div className="logoContainer">
-        <img src="../src/assets/images/Th-Logo-long-blanc.png" alt="Logo The hoard" className="mainLogo" />
+        <a href="https://thehoard.co/" target="_blank">
+          <img src="../src/assets/images/Th-Logo-long-blanc.png" alt="Logo The hoard" className="mainLogo" />
+        </a>
         <h1 id="mainTitle">Minis-printer</h1>
       </div>
       <div id="interfaceContainer">
