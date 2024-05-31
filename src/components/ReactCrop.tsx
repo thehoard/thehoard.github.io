@@ -22,6 +22,7 @@ function centerAspectCrop(
       {
         unit: '%',
         width: 90,
+        height: 90,
       },
       mediaWidth,
       mediaHeight,
@@ -165,9 +166,9 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
         </div>
       )}
       {imgSrc && (
-        <div className="miniPortalControl">
+        <div>
           <p className="sectionTitle">Créature</p>
-          <button id="miniPortalLabel" className="btn btn-primary btn-lg custom-btn" onClick={handleDropZoneClick}>Changer de créature</button>
+          <button className="btn btn-primary btn-lg custom-btn" onClick={handleDropZoneClick}>Changer de créature</button>
           <input
             type="file"
             accept="image/*"
@@ -191,6 +192,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
             className="imgUploadCrop"
             src={imgSrc}
             onLoad={onImageLoad}
+            style={{ width: '320px' }}
           />
         </ReactCrop>
       )}

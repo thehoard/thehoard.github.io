@@ -16,7 +16,7 @@ function App() {
         <img src="../src/assets/images/Th-Logo-long-blanc.png" alt="Logo The hoard" className="mainLogo" />
         <h1 id="mainTitle">Minis-printer</h1>
       </div>
-      <div id="cropContainer">
+      <div id="interfaceContainer">
         <ReactCrop onBlobUrlChange={setImageUrl} />
         <ImageEditor onArmyChange={setArmy} imageUrl={imageUrl} />
       </div>
