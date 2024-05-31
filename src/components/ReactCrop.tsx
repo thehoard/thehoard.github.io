@@ -13,25 +13,6 @@ interface ReactCropProps {
   onBlobUrlChange: (blobUrl: string) => void
 }
 
-function centerAspectCrop(
-  mediaWidth: number,
-  mediaHeight: number,
-) {
-  return centerCrop(
-    makeAspectCrop(
-      {
-        unit: '%',
-        width: 90,
-        height: 90,
-      },
-      mediaWidth,
-      mediaHeight,
-    ),
-    mediaWidth,
-    mediaHeight,
-  )
-}
-
 export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -54,8 +35,13 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   }
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
-    const { width, height } = e.currentTarget
-    setCrop(centerAspectCrop(width, height))
+    setCrop({
+      unit: '%',
+      width: 90,
+      height: 90,
+      x: 5,
+      y: 5,
+    })
   }
 
   useEffect(() => {
