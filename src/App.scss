@@ -29,7 +29,7 @@
 #root {
   max-width: fit-content;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1vw;
   text-align: center;
   font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 2;
@@ -44,13 +44,12 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   background-image: url(../src/assets/images/background.jpg);
   background-size: 100% auto;
   background-repeat: repeat-y;
+  overflow: hidden;
 }
 
 .custom-btn {
@@ -77,33 +76,37 @@ body {
 }
 
 .logoContainer {
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 2vw;
+
+  a {
+    width: 30vw;
+
+    .mainLogo {
+      width: 100%;
+    }
+  }
+
+  #mainTitle {
+    display: none;
+    width: 30vw;
+    font-size: 2rem;
+    font-weight: bolder;
+    color: #502f20;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background-image: url(../src/assets/images/parchment-banner.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
 }
 
-.logoContainer .mainLogo {
-  width: 50%;
-  margin-bottom: 1vw;
-}
 
-.logoContainer h1 {
-  font-size: 3rem;
-  font-weight: bolder;
-  color: #502f20;
-  width: fit-content;
-  padding-top: 4%;
-  padding-bottom: 2%;
-  padding-left: 16%;
-  padding-right: 17%;
-  margin-left: auto;
-  margin-right: auto;
-  background-image: url(../src/assets/images/parchment-banner.png) !important;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+
 
 #interfaceContainer {
   display: inline-flex;
@@ -122,19 +125,19 @@ body {
 #welcomeContainer {
   display: inline-flex;
   background-image: url(../src/assets/images/Parchemin.png);
-  background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   justify-content: center;
   text-align: center;
   align-items: center;
-  padding: 7vw;
+  padding: 5vw;
   width: fit-content;
 }
 
 #welcomeContainer #welcomeGoblin {
   display: block;
-  height: 300px;
+  width: 13vw;
   animation: bounce 4s infinite;
 }
 
@@ -144,7 +147,7 @@ body {
   flex-direction: column;
   width: 29vw;
   font-family: 'Medieval';
-  font-size: 2rem;
+  font-size: 1.5vw;
   margin-left: 1vw;
   color: #242424;
 }
@@ -166,14 +169,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 45vw;
+  height: auto;
+  overflow: hidden;
+  border-radius: 50%;
+
+  #filePortal {
+    display: round($number: 360);
+    width: 72%;
+    transition: transform 0.5s;
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+    transform: rotate(45deg);
+  }
 }
 
-.portalControl #filePortal {
-  width: 75%;
-  transition: transform 0.5s;
-  border-radius: 50%;
-  animation: rotate 20s linear infinite;
-}
+
 
 @keyframes rotate {
   from {

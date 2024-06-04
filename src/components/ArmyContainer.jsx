@@ -9,7 +9,7 @@ const createNewCanvas = (containerRef) => {
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
     const context = newCanvas.getContext('2d')
-    context.fillStyle = '#FCF5E5'
+    context.fillStyle = 'white'
     context.fillRect(0, 0, newCanvas.width, newCanvas.height)
     return newCanvas
 }

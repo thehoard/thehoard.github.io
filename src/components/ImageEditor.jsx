@@ -142,7 +142,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <h2>Choix de la taille</h2>
             <label><input type="radio" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
             <label><input type="radio" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
-            <label><input type="radio" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} /> Moyen (1 carré)</label>
+            <label><input type="radio" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} defaultChecked /> Moyen (1 carré)</label>
             <label><input type="radio" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
             <label><input type="radio" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
             <div id="BaseSelector">
