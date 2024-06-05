@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { jsPDF } from 'jspdf'
-import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM } from '../utils/util'
+import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM, mmToPx } from '../utils/util'
+
+const PRINT_MARGIN = mmToPx(10);
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
@@ -26,8 +28,8 @@ function ArmyContainer({ army }) {
     const containerRef = useRef(null)
     const canvasRef = useRef([])
     let currentLineMaxHeight = 0
-    let currentXPos = 0
-    let currentYPos = 0
+    let currentXPos = PRINT_MARGIN
+    let currentYPos = PRINT_MARGIN
 
     useEffect(() => {
         if (!army || army.length === 0) return
@@ -44,15 +46,15 @@ function ArmyContainer({ army }) {
                     let nextXPos = currentXPos
                     let nextYPos = currentYPos
 
-                    if (nextXPos + image.width > canvas.width) {
-                        nextXPos = 0
+                    if (nextXPos + image.width > canvas.width - PRINT_MARGIN) {
+                        nextXPos = PRINT_MARGIN
                         nextYPos += currentLineMaxHeight
                         currentLineMaxHeight = 0
                     }
 
-                    if (nextYPos + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
-                        nextXPos = 0
-                        nextYPos = 0
+                    if (nextYPos + image.height > canvas.height - PRINT_MARGIN) { //remise à zéro de la hauteur du curseur
+                        nextXPos = PRINT_MARGIN
+                        nextYPos = PRINT_MARGIN
                         //création d'un nouveau canvas
                         const newCanvas = createNewCanvas(containerRef)
                         canvasRef.current.push(newCanvas)
@@ -80,7 +82,7 @@ function ArmyContainer({ army }) {
             if (index > 0) {
                 doc.addPage();
             }
-            doc.addImage(imgData, 'PNG', 0, 0, A4_WIDTH_MM, A4_HEIGHT_MM);
+            doc.addImage(imgData, 'PNG', 5, 0, A4_WIDTH_MM, A4_HEIGHT_MM);
         });
 
         doc.save('Armée.pdf');

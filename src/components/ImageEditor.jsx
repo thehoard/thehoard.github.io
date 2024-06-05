@@ -62,7 +62,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, resizedImageWidth, resizedImageHeight);
 
-    const resizedImageDataUrl = canvas.toDataURL('image/jpeg'); //enregistrement d'un URL pour l'image redimensionnée
+    const resizedImageDataUrl = canvas.toDataURL('image/png'); //enregistrement d'un URL pour l'image redimensionnée
 
     const resizedImage = new Image();
     resizedImage.width = resizedImageWidth;
@@ -99,7 +99,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
       ctx.save()
 
-      const dataURL = canvas.toDataURL('image/jpeg')
+      const dataURL = canvas.toDataURL('image/png')
 
       setImagePreview(dataURL)
     }
@@ -109,7 +109,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   const downloadImage = () => {
     const downloadLink = document.createElement('a')
     downloadLink.href = imagePreview
-    downloadLink.download = 'image.jpg'
+    downloadLink.download = 'image.png'
     downloadLink.click()
   }
 
