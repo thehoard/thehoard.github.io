@@ -84,7 +84,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-bottom: 2vw;
+  margin-bottom: 1vw;
 
   a {
     width: 30vw;
@@ -270,7 +270,7 @@ body {
   display: flex;
   text-align: center;
   align-items: center;
-  width: 320px;
+  width: 310px;
   flex-direction: column;
 }
 
@@ -309,6 +309,7 @@ body {
 canvas {
   margin: 0.2vw;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  max-width: 90vw;
 }
 
 @media screen and (max-width: 1024px) {
@@ -323,12 +324,89 @@ canvas {
     align-items: center;
     justify-content: center;
   }
+
+  .custom-btn {
+    padding: 5% !important;
+    width: 60%;
+    font-size: 2vw !important;
+  }
+
+  .custom-army-btn {
+    width: 40vw;
+  }
 }
 
 @media screen and (max-width: 768px) {
+
+  .logoContainer {
+    margin-bottom: 4vw;
+
+    a {
+      width: 50vw;
+
+      .mainLogo {
+        width: 100%;
+      }
+    }
+
+    #mainTitle {
+      width: 30vw;
+      font-size: 2vw;
+      padding-top: 2.5vw;
+      padding-bottom: 1.5vw;
+    }
+  }
+
+  #welcomeContainer {
+    width: 95vw;
+    padding-top: 15vw;
+    padding-bottom: 10vw;
+
+    #welcomeGoblin {
+      width: 25%;
+    }
+
+    #welcomeText {
+      width: 60%;
+      font-size: 3.5vw;
+      margin-left: 1vw;
+    }
+  }
+
+  .portalControl {
+    width: 50vh;
+  }
+
+
+
   #customizationAndPreviewContainer {
     flex-direction: column;
     align-items: center;
+  }
+
+  .custom-btn {
+    padding: 5% !important;
+    width: 60%;
+    font-size: 3vw !important;
+  }
+
+  .custom-army-btn {
+    width: 40vw;
+  }
+
+  .sectionTitle {
+    margin: 0.5vw;
+  }
+
+  #armyContainerTitle {
+    width: 80vw;
+    font-size: 6vw;
+    margin-top: 5vw;
+  }
+
+  #customizationButtons {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -372,6 +450,24 @@ canvas {
 
     width: 95vh;
     height: auto;
+  }
+
+  #customizationButtons {
+    label {
+      font-size: 1.5rem;
+    }
+  }
+
+  .sectionTitle {
+    font-size: 2.5vw;
+  }
+
+  #armyContainerTitle {
+    font-size: 2rem;
+    font-weight: bolder;
+    width: 12vw;
+    padding-top: 2%;
+    padding-bottom: 1.3%;
   }
 
 }
