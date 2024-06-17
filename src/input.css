@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../src/assets/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../src/assets/fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../src/assets/fonts/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: bolder;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Medieval';
+    src: url('../src/assets/fonts/MorrisRoman-Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#root {
+    margin: auto;
+    color: rgba(255, 255, 255, 0.87);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-smoothing: antialiased;
+    max-width: 1600px;
+
+    --primary-font: 'Medieval', 'Poppins', sans-serif;
+    --secondary-font: 'Poppins', 'Medieval', sans-serif;
+    --primary-font-color: #242424;
+  }
+  
+  body {
+    background-image: url(../src/assets/images/background.jpg);
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+  }
+
+  /* Logo container */
+
+  #mainTitle {
+    background-image: url(../src/assets/images/parchment-banner.png);
+    background-size: 100% 100%;
+
+    font-family: var(--secondary-font);
+    color: var(--primary-font-color);
+  }
+
+  /* Welcome page */
+
+  #welcomeContainer {
+    background-image: url(../src/assets/images/Parchemin.png);
+    background-size: 100% 100%;
+
+    font-family: var(--primary-font);
+    color: var(--primary-font-color);
+  }
+
+  #welcomeGoblin{
+    animation: bounce 4s infinite;
+  }
+
+  @keyframes bounce {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+  
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  #filePortal {
+    transition: transform 0.5s;
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+    transform: rotate(45deg);
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }

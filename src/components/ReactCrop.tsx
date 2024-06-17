@@ -122,16 +122,17 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   return (
     <div className="Crop-Container">
       {!imgSrc && (
-        <div id="homeContainer">
-          <div id="welcomeContainer">
-            <img id="welcomeGoblin" src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
-            <p id="welcomeText">Un gobelin vous salue : <br />
+        <div className="flex flex-inline justify-center items-center">
+          <div className="flex justify-between items-center h-full p-24 w-3/5" id="welcomeContainer">
+            <img className="w-2/5" id="welcomeGoblin" src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
+            <p className="text-3xl h-full text-center ml-6" id="welcomeText">Un gobelin vous salue : <br />
               "L'Aventure vous attend voyageur ! Mais tout aventurier doit avoir des compagnons à ses cotés et adversaires à affronter.
               Je vais les créer pour vous : Commencez par faire passer une image dans le portail pour la personnaliser et l'ajouter à un parchemin que vous pourrez imprimer.
               Rassurez-vous : vous pourrez en mettre plusieurs"</p>
           </div>
           <div
-            className="portalControl"
+            className="overflow-hidden w-2/5"
+            id="portalControl"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onClick={handleDropZoneClick}
