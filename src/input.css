@@ -32,28 +32,34 @@
 
 #root {
     margin: auto;
+    max-width: 1600px;
     color: rgba(255, 255, 255, 0.87);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -moz-font-smoothing: antialiased;
-    max-width: 1600px;
 
     --primary-font: 'Medieval', 'Poppins', sans-serif;
     --secondary-font: 'Poppins', 'Medieval', sans-serif;
     --primary-font-color: #242424;
   }
   
-  body {
+  body, html {
     background-image: url(../src/assets/images/background.jpg);
     background-size: 100% auto;
     background-repeat: repeat-y;
+
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Logo container */
 
-  #mainTitle {
+  .mainTitle {
     background-image: url(../src/assets/images/parchment-banner.png);
     background-size: 100% 100%;
 
@@ -103,3 +109,75 @@
       transform: rotate(360deg);
     }
   }
+
+  /* Preview and customization page */
+
+  .sectionTitle {
+    font-family: var(--primary-font);
+  }
+
+  .customizationSection {
+    font-family: var(--secondary-font);
+  }
+
+  .numberInput {
+    background-color: #FCF5E5;
+    font-family: var(--secondary-font);
+    color: var(--primary-font-color);
+  }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.baseSelectorContainer {
+  background-color: rgba(255, 153, 0, 0.327);
+}
+
+  /* TailWind doesn't provide any buttons, so a custom class is written here */
+  .btn {
+    background-image: url(../src/assets/images/buttons.png);
+    background-size: 100% 100%;
+    
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1.2rem;
+
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+
+    font-size: 1rem;
+    font-family: var(--secondary-font);
+  }
+  
+  .btn:hover {
+    background-image: url(../src/assets/images/buttons-hover.png);
+  }
+  
+  .btn:active {
+    background-image: url(../src/assets/images/buttons-click.png);
+  }
+
+  canvas {
+    margin: 0.2vw;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    max-width: 70vw;
+  }
+
+  @media screen and (min-width: 2500px) {
+    #root{
+      max-width: 3000px;
+    }
+
+    .btn {
+      
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      font-size: 2rem;
+    }
+
+  }
+
+  

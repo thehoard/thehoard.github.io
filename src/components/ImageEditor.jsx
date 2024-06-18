@@ -136,50 +136,54 @@ function ImageEditor({ imageUrl, onArmyChange }) {
   return (
     <div>
       {imagePreview && (
-        <div id="customizationAndPreviewContainer">
-          <div id="customizationButtons">
-            <p className="sectionTitle">Personnalisation</p>
-            <h2>Choix de la taille</h2>
-            <label><input type="radio" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
-            <label><input type="radio" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
-            <label><input type="radio" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} defaultChecked /> Moyen (1 carré)</label>
-            <label><input type="radio" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
-            <label><input type="radio" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
-            <div id="BaseSelector">
-              <h2>Choix du terrain</h2>
-              <div id="baseButtonsContainer">
+        <div className="flex flex-row justify-center flex-wrap">
+          <div className="flex flex-col items-center mr-20 ml-20 md:mr-auto md:ml-auto xl:mr-20 xl:ml-20 3xl:mr-80 3xl:ml-80">
+            <p className="text-4xl md:text-6xl 3xl:text-8xl sectionTitle mb-4">Personnalisation</p>
+            <h2 className="text-2xl 2xl:text-4xl 3xl:text-5xl 3xl:m-10 customizationSection">Choix de la taille</h2>
+            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
+            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
+            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} defaultChecked /> Moyen (1 carré)</label>
+            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
+            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
+            <div className="flex flex-col items-center m-2">
+              <h2 className="text-2xl 2xl:text-4xl 3xl:text-5xl 3xl:mt-12 customizationSection">Choix du terrain</h2>
+              <div className="flex flex-row rounded-md m-5 p-2 baseSelectorContainer 3xl:p-4">
                 <label>
-                  <input type="radio" name="terrain" value='-grass' className="baseSelectorRadio" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" className="baseSelector" />
+                  <input type="radio" name="terrain" value='-grass' className="hidden" onChange={handleBaseChange} />
+                  <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
-                  <input type="radio" name="terrain" value='-sand' className="baseSelectorRadio" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" className="baseSelector" />
+                  <input type="radio" name="terrain" value='-sand' className="hidden" onChange={handleBaseChange} />
+                  <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
-                  <input type="radio" name="terrain" value='-cobblestone' className="baseSelectorRadio" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" className="baseSelector" />
+                  <input type="radio" name="terrain" value='-cobblestone' className="hidden" onChange={handleBaseChange} />
+                  <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
-                  <input type="radio" name="terrain" value='-lava' className="baseSelectorRadio" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" className="baseSelector" />
+                  <input type="radio" name="terrain" value='-lava' className="hidden" onChange={handleBaseChange} />
+                  <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
-                  <input type="radio" name="terrain" value='-white' className="baseSelectorRadio" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-white.svg" alt="Blanc" className="baseSelector" />
+                  <input type="radio" name="terrain" value='-white' className="hidden" onChange={handleBaseChange} />
+                  <img src="../src/assets/images/Minibase-white.svg" alt="Blanc" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
               </div>
             </div>
-            <div id="numberSelector">
-              <label id="numberSelectionLabel">Nombre de Minis à enrôler
-                <input type="number" value={repeatValue} onChange={event => setRepeatValue(event.target.value)} />
-              </label>
-            </div>
-            <button type="button" className="btn btn-primary btn-lg custom-btn" onClick={addImageToArmy}>Enrôler dans l'armée</button>
+
+            <label className="flex flex-col items-center m-2 text-xl 2xl:text-4xl 3xl:text-5xl 3xl:m-12 text-center customizationSection">Nombre de Minis à enrôler
+              <input type="number"
+                className="appearance-none text-center text-3xl w-1/5 rounded-md numberInput 3xl:mt-6"
+                value={repeatValue}
+                onChange={event => setRepeatValue(event.target.value)}
+              />
+            </label>
+
+            <button type="button" className="btn" onClick={addImageToArmy}>Enrôler dans l'armée</button>
           </div>
-          <div id="miniPreview">
-            <p className="sectionTitle">Prévisualisation</p>
-            <button type="button" className="btn btn-primary btn-lg custom-btn" onClick={downloadImage}>Télécharger le mini seul</button>
+          <div className="flex flex-col items-center w-96">
+            <p className="text-4xl md:text-6xl 3xl:text-8xl sectionTitle">Prévisualisation</p>
+            <button type="button" className="btn" onClick={downloadImage}>Télécharger le mini seul</button>
             <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '100%' }} />
           </div>
         </div>
