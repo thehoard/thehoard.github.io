@@ -123,8 +123,17 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
     <div className="flex flex-col items-center">
       {!imgSrc && (
         <div className="flex flex-wrap justify-center items-center">
-          <div className="flex justify-between items-center w-5/6 xl:w-3/5 3xl:p-44 p-10 sm:p-14 md:p-20 xl:p-24 2xl:p-24" id="welcomeContainer">
-            <img className="w-1/3 mb-4 sm:w-1/4 md:w-2/5 lg:w-2/6 xl:w-1/3 2xl:w-2/5 3xl:w-2/6" id="welcomeGoblin" src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
+          <div id="welcomeContainer"
+            className="
+              flex justify-between items-center 
+              w-5/6 xl:w-3/5 
+              p-10 sm:p-14 md:p-20 xl:p-24 2xl:p-24 3xl:p-44"
+          >
+            <img id="welcomeGoblin"
+              className="
+                mb-4
+                w-1/3 sm:w-1/4 md:w-2/5 lg:w-2/6 xl:w-1/3 2xl:w-2/5 3xl:w-2/6"
+              src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
             <p className="text-xs sm:text-lg md:text-2xl lg:text-3xl xl:text-3xl 3xl:text-6xl w-full h-full text-center" id="welcomeText">Un gobelin vous salue : <br />
               "L'Aventure vous attend voyageur ! Mais tout aventurier doit avoir des compagnons à ses cotés et adversaires à affronter.
               Je vais les créer pour vous : Commencez par faire passer une image dans le portail pour la personnaliser et l'ajouter à un parchemin que vous pourrez imprimer.

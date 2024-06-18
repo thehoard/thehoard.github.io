@@ -137,7 +137,10 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     <div>
       {imagePreview && (
         <div className="flex flex-row justify-center flex-wrap">
-          <div className="flex flex-col items-center mr-20 ml-20 md:mr-auto md:ml-auto xl:mr-20 xl:ml-20 3xl:mr-80 3xl:ml-80">
+          <div className="
+            flex flex-col items-center 
+            mr-20 ml-20 md:mr-auto md:ml-auto xl:mr-20 xl:ml-20 3xl:mr-80 3xl:ml-80"
+          >
             <p className="text-4xl md:text-6xl 3xl:text-8xl sectionTitle mb-4">Personnalisation</p>
             <h2 className="text-2xl 2xl:text-4xl 3xl:text-5xl 3xl:m-10 customizationSection">Choix de la taille</h2>
             <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
@@ -171,7 +174,11 @@ function ImageEditor({ imageUrl, onArmyChange }) {
               </div>
             </div>
 
-            <label className="flex flex-col items-center m-2 text-xl 2xl:text-4xl 3xl:text-5xl 3xl:m-12 text-center customizationSection">Nombre de Minis à enrôler
+            <label className="
+              flex flex-col items-center text-center customizationSection 
+              m-2 3xl:m-12
+              text-xl 2xl:text-4xl 3xl:text-5xl"
+            >Nombre de Minis à enrôler
               <input type="number"
                 className="appearance-none text-center text-3xl w-1/5 rounded-md numberInput 3xl:mt-6"
                 value={repeatValue}

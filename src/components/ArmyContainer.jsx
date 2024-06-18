@@ -93,7 +93,12 @@ function ArmyContainer({ army }) {
     return (
 
         <div className="flex flex-col items-center">
-            <h2 className="w-5/6 md:w-2/6 p-5 pt-8 mb-4 text-center text-xl mainTitle">Armée</h2>
+            <h2 className="
+                text-center mainTitle
+                p-5 pt-8 mb-4
+                w-5/6 md:w-2/6 3xl:w-1/6 
+                text-xl 3xl:text-2xl"
+            >Armée</h2>
             <button type="button" className="btn" onClick={downloadArmy}>Télécharger l'armée</button>
             <div id="flex flex-col items-center flex-wrap" ref={containerRef}></div>
         </div>
