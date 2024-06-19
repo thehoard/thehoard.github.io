@@ -139,15 +139,15 @@ function ImageEditor({ imageUrl, onArmyChange }) {
         <div className="flex flex-row justify-center flex-wrap">
           <div className="
             flex flex-col items-center 
-            mr-20 ml-20 md:mr-auto md:ml-auto xl:mr-20 xl:ml-20 3xl:mr-80 3xl:ml-80"
+            mr-20 ml-20 md:mr-auto md:ml-auto 3xl:mr-80 3xl:ml-80"
           >
-            <p className="text-4xl md:text-6xl 3xl:text-8xl sectionTitle mb-4">Personnalisation</p>
+            <p className="text-4xl md:text-5xl 3xl:text-8xl sectionTitle mb-4">Personnalisation</p>
             <h2 className="text-2xl 2xl:text-4xl 3xl:text-5xl 3xl:m-10 customizationSection">Choix de la taille</h2>
-            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
-            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
-            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} defaultChecked /> Moyen (1 carré)</label>
-            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
-            <label className="xl: text-3xl 3xl:text-4xl"><input type="radio" className="md:w-6 md:h-6" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
+            <label className="xl: text-xl 3xl:text-4xl"><input type="radio" className="xl:w-4 xl:h-4" name="size" value='0.25' onChange={event => setSelectedSize(event.target.value)} /> Minuscule (1/4 carré)</label>
+            <label className="xl: text-xl 3xl:text-4xl"><input type="radio" className="xl:w-4 xl:h-4" name="size" value='0.5' onChange={event => setSelectedSize(event.target.value)} /> Petit (0.5 carré)</label>
+            <label className="xl: text-xl 3xl:text-4xl"><input type="radio" className="xl:w-4 xl:h-4" name="size" value='1' onChange={event => setSelectedSize(event.target.value)} defaultChecked /> Moyen (1 carré)</label>
+            <label className="xl: text-xl 3xl:text-4xl"><input type="radio" className="xl:w-4 xl:h-4" name="size" value='4' onChange={event => setSelectedSize(event.target.value)} /> Grand (4 carrés)</label>
+            <label className="xl: text-xl 3xl:text-4xl"><input type="radio" className="xl:w-4 xl:h-4" name="size" value='8' onChange={event => setSelectedSize(event.target.value)} /> Énorme (8 carrés)</label>
             <div className="flex flex-col items-center m-2">
               <h2 className="text-2xl 2xl:text-4xl 3xl:text-5xl 3xl:mt-12 customizationSection">Choix du terrain</h2>
               <div className="flex flex-row rounded-md m-5 p-2 baseSelectorContainer 3xl:p-4">
@@ -189,7 +189,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
             <button type="button" className="btn" onClick={addImageToArmy}>Enrôler dans l'armée</button>
           </div>
           <div className="flex flex-col items-center w-96">
-            <p className="text-4xl md:text-6xl 3xl:text-8xl sectionTitle">Prévisualisation</p>
+            <p className="text-4xl md:text-5xl 3xl:text-8xl sectionTitle">Prévisualisation</p>
             <button type="button" className="btn" onClick={downloadImage}>Télécharger le mini seul</button>
             <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '100%' }} />
           </div>
