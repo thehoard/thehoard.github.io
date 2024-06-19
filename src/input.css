@@ -110,6 +110,11 @@
     }
   }
 
+/* This style ensures that the background is white when the user upload an image with transparent background */
+  .imgUploadCrop {
+    background-color: white;
+  }
+
   /* Preview and customization page */
 
   .sectionTitle {
@@ -161,6 +166,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   canvas {
     margin: 0.2vw;
+    margin-bottom: 1vw;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     max-width: 70vw;
   }

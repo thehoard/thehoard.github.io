@@ -146,7 +146,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
             onDragOver={handleDragOver}
             onClick={handleDropZoneClick}
           >
-            <img src="../src/assets/images/portail.png" id="filePortal" alt="zone d'upload du fichier"></img>
+            <img className="cursor-pointer" src="../src/assets/images/portail.png" id="filePortal" alt="zone d'upload du fichier"></img>
             <input
               type="file"
               accept="image/*"
