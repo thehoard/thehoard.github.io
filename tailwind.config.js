@@ -4,7 +4,12 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        'fixed30': '30rem',
+        'fixed35': '35rem',
+      }
+    },
     screens: {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }

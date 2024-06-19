@@ -188,7 +188,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
             <button type="button" className="btn" onClick={addImageToArmy}>Enrôler dans l'armée</button>
           </div>
-          <div className="flex flex-col items-center w-96 flex-grow">
+          <div className="flex flex-col items-center w-96 xl:h-fixed30 2xl:h-fixed35">
             <p className="text-4xl md:text-5xl 3xl:text-8xl sectionTitle">Prévisualisation</p>
             <button type="button" className="btn" onClick={downloadImage}>Télécharger le mini seul</button>
             <img src={imagePreview} alt="Prévisualisation" style={{ maxWidth: '100%', maxHeight: '100%' }} />
