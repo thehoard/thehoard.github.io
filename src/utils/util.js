@@ -9,7 +9,7 @@ export const mmToPx = (sizeInMm) => {
     return Math.floor(sizeInMm * dpi * PIXELS_IN_MM)
 }
 
-export const A4_HEIGHT_PX_MARGINS = Math.floor(A4_HEIGHT_PX - 2 * (mmToPx(10)))
+export const A4_HEIGHT_PX_MARGINS = Math.floor(A4_HEIGHT_PX - (mmToPx(10)))
 
 
 

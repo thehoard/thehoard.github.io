@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { mmToPx, A4_HEIGHT_PX_MARGINS } from '../utils/util'
+import Pica from 'pica'
 
+const pica = Pica()
 const INCHES_TO_MM = 25.4 //les bases D&D sont exprimées en pouces, on les traduit en MM
 
 const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
@@ -28,58 +30,62 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
   useEffect(() => {
     if (imageUrl) {
-      const img = new Image();
+      const img = new Image()
       img.onload = () => {
-        const baseImg = new Image();
+        const baseImg = new Image()
         baseImg.onload = () => { //chargement de l'image de la base
-          setBaseImg(baseImg);
-          drawCanvas(img, baseImg, selectedSize); //à chaque modification de l'image de base ou de la taille, drawImage est appelée
-        };
-        baseImg.src = baseImgSrc;
-      };
-      img.src = imageUrl;
+          setBaseImg(baseImg)
+          drawCanvas(img, baseImg, selectedSize) //à chaque modification de l'image de base ou de la taille, drawImage est appelée
+        }
+        baseImg.src = baseImgSrc
+      }
+      img.src = imageUrl
     }
-  }, [imageUrl, selectedSize, baseImgSrc]);
+  }, [imageUrl, selectedSize, baseImgSrc])
 
-  const resizeImage = (img, baseWidth) => {
+  const resizeImage = async (img, baseWidth) => {
+    const aspectRatio = img.width / img.height
+    let resizedImageWidth = baseWidth
+    let resizedImageHeight = resizedImageWidth / aspectRatio
 
-    const aspectRatio = img.width / img.height; // on calcule la taille de l'image en préservant le ratio du crop
-    let resizedImageWidth = baseWidth;
-    let resizedImageHeight = resizedImageWidth / aspectRatio;
-
-    if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX_MARGINS) { // Si l'image est trop haute pour du A4 on la recalcule sous cette contrainte
+    if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX_MARGINS) {
       let newSizes = resizetoA4MaxHeight(aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS)
-      resizedImageHeight = newSizes.resizedImageHeight;
-      resizedImageWidth = newSizes.resizedImageWidth;
+      resizedImageHeight = newSizes.resizedImageHeight
+      resizedImageWidth = newSizes.resizedImageWidth
     }
 
     setResizedImageHeight(resizedImageHeight)
     setResizedImageWidth(resizedImageWidth)
 
-    const canvas = document.createElement('canvas'); // création d'un canvas pour dessiner l'image redimensionnée
-    canvas.width = resizedImageWidth;
-    canvas.height = resizedImageHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, resizedImageWidth, resizedImageHeight);
+    const offScreenCanvas = document.createElement('canvas')
+    offScreenCanvas.width = img.width
+    offScreenCanvas.height = img.height
+    const offScreenCtx = offScreenCanvas.getContext('2d')
+    offScreenCtx.drawImage(img, 0, 0)
 
-    const resizedImageDataUrl = canvas.toDataURL('image/png'); //enregistrement d'un URL pour l'image redimensionnée
+    const canvas = document.createElement('canvas')
+    canvas.width = resizedImageWidth
+    canvas.height = resizedImageHeight
 
-    const resizedImage = new Image();
-    resizedImage.width = resizedImageWidth;
-    resizedImage.height = resizedImageHeight;
-    resizedImage.src = resizedImageDataUrl;
+    // Utilisation de pica pour redimensionner l'image avec une qualité élevée
+    await pica.resize(offScreenCanvas, canvas, {
+      unsharpAmount: 160,
+      unsharpRadius: 0.6,
+      unsharpThreshold: 1
+    })
 
-    return resizedImage;
+    const resizedImageDataUrl = canvas.toDataURL('image/png')
+    return resizedImageDataUrl
   }
 
-  const drawCanvas = (img, baseImg, selectedSize) => {
-
+  const drawCanvas = async (img, baseImg, selectedSize) => {
     const { baseWidth, baseHeight } = calculateBaseSize(selectedSize)
-    const foldStroke = 2 // l'espace de pliure est défini à 2 pixels, soit environ 0.5mm.
-    const resizedImage = resizeImage(img, baseWidth) //on créé une nouvelle image redimensionnée
+    const foldStroke = 2
 
-    resizedImage.onload = () => { //au chargement de l'image redimensionnée, on la dessine sur le canvas de prévisualisation.
+    const resizedImageSrc = await resizeImage(img, baseWidth)
 
+    const resizedImage = new Image()
+    resizedImage.onload = () => {
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
 
@@ -92,17 +98,18 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.scale(1, -1)
-      ctx.drawImage(resizedImage, centerXCanvas, (-centerYCanvas - resizedImage.height - foldStroke)) //dessin de l'image inversée
+      ctx.drawImage(resizedImage, centerXCanvas, (-centerYCanvas - resizedImage.height - foldStroke))
       ctx.restore()
-      ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2)) //dessin de l'image normale
-      ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight) //dessin des bases
+      ctx.drawImage(resizedImage, centerXCanvas, (centerYCanvas + resizedImage.height + foldStroke * 2))
+      ctx.drawImage(baseImg, 0, 0, canvas.width, baseHeight)
       ctx.drawImage(baseImg, 0, (canvas.height - baseHeight + foldStroke), canvas.width, baseHeight)
       ctx.save()
 
       const dataURL = canvas.toDataURL('image/png')
-
       setImagePreview(dataURL)
     }
+
+    resizedImage.src = resizedImageSrc
   }
 
 
@@ -122,16 +129,16 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
 
     // Tri des minis en fonction de la hauteur de l'image
-    const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth);
+    const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth)
     setArmy(sortedArmy)
     onArmyChange(sortedArmy)
   }
 
   const handleBaseChange = (event) => {
-    const newBaseSrc = event.target.value;
-    const baseSrcString = `../src/assets/images/Minibase${newBaseSrc}.svg`;
-    setBaseImgSrc(baseSrcString);
-  };
+    const newBaseSrc = event.target.value
+    const baseSrcString = `../src/assets/images/Minibase${newBaseSrc}.svg`
+    setBaseImgSrc(baseSrcString)
+  }
 
   return (
     <div>

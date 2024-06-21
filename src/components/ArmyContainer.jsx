@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { jsPDF } from 'jspdf'
 import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM, mmToPx } from '../utils/util'
 
-const PRINT_MARGIN = mmToPx(10);
+const PRINT_MARGIN = mmToPx(10)
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
@@ -75,17 +75,17 @@ function ArmyContainer({ army }) {
     }, [army])
 
     const downloadArmy = () => {
-        const doc = new jsPDF('portrait', 'mm', 'a4');
+        const doc = new jsPDF('portrait', 'mm', 'a4')
 
         canvasRef.current.forEach((canvas, index) => {
-            const imgData = canvas.toDataURL('image/png');
+            const imgData = canvas.toDataURL('image/png')
             if (index > 0) {
-                doc.addPage();
+                doc.addPage()
             }
-            doc.addImage(imgData, 'PNG', 5, 0, A4_WIDTH_MM, A4_HEIGHT_MM);
-        });
+            doc.addImage(imgData, 'PNG', 5, 0, A4_WIDTH_MM, A4_HEIGHT_MM)
+        })
 
-        doc.save('Armée.pdf');
+        doc.save('Armée.pdf')
     }
 
     if (!army || army.length === 0) return null
