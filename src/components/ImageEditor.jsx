@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { mmToPx, A4_HEIGHT_PX } from '../utils/util'
+import { mmToPx, A4_HEIGHT_PX_MARGINS } from '../utils/util'
 
 const INCHES_TO_MM = 25.4 //les bases D&D sont exprimées en pouces, on les traduit en MM
 
@@ -10,8 +10,8 @@ const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de 
   return { baseWidth, baseHeight }
 }
 
-const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
-  let resizedImageHeight = A4_HEIGHT_PX - baseWidth * 2
+const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
+  let resizedImageHeight = A4_HEIGHT_PX_MARGINS - baseWidth * 2
   let resizedImageWidth = baseWidth * aspectRatio
   return { resizedImageHeight, resizedImageWidth }
 }
@@ -47,8 +47,8 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     let resizedImageWidth = baseWidth;
     let resizedImageHeight = resizedImageWidth / aspectRatio;
 
-    if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX) { // Si l'image est trop haute pour du A4 on la recalcule sous cette contrainte
-      let newSizes = resizetoA4MaxHeight(aspectRatio, baseWidth, A4_HEIGHT_PX)
+    if (resizedImageHeight + baseWidth * 2 > A4_HEIGHT_PX_MARGINS) { // Si l'image est trop haute pour du A4 on la recalcule sous cette contrainte
+      let newSizes = resizetoA4MaxHeight(aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS)
       resizedImageHeight = newSizes.resizedImageHeight;
       resizedImageWidth = newSizes.resizedImageWidth;
     }
