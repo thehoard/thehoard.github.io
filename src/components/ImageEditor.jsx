@@ -3,16 +3,16 @@ import { mmToPx, A4_HEIGHT_PX_MARGINS } from '../utils/util'
 import Pica from 'pica'
 
 const pica = Pica()
-const INCHES_TO_MM = 25.4 //les bases D&D sont exprimées en pouces, on les traduit en MM
+const INCHES_TO_MM = 25.4 // Les bases D&D sont exprimées en pouces, on les traduit en MM
 
-const calculateBaseSize = (selectedSize) => { //calcul de la taille en pixel de la base
+const calculateBaseSize = (selectedSize) => {
   const SQUARE_PX = mmToPx(INCHES_TO_MM)
   const baseWidth = SQUARE_PX * (selectedSize / 2)
   const baseHeight = baseWidth / 2
   return { baseWidth, baseHeight }
 }
 
-const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS) => { // fonction de redimensionnement de l'image si elle dépasse la hauteur A4
+const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS) => {
   let resizedImageHeight = A4_HEIGHT_PX_MARGINS - baseWidth * 2
   let resizedImageWidth = baseWidth * aspectRatio
   return { resizedImageHeight, resizedImageWidth }
@@ -21,7 +21,7 @@ const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS) => { 
 function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
-  const [baseImgSrc, setBaseImgSrc] = useState(`../src/assets/images/Minibase-grass.svg`)
+  const [baseImgSrc, setBaseImgSrc] = useState('../src/assets/images/Minibase-grass.svg')
   const [army, setArmy] = useState([])
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
@@ -33,9 +33,9 @@ function ImageEditor({ imageUrl, onArmyChange }) {
       const img = new Image()
       img.onload = () => {
         const baseImg = new Image()
-        baseImg.onload = () => { //chargement de l'image de la base
+        baseImg.onload = () => {
           setBaseImg(baseImg)
-          drawCanvas(img, baseImg, selectedSize) //à chaque modification de l'image de base ou de la taille, drawImage est appelée
+          drawCanvas(img, baseImg, selectedSize)
         }
         baseImg.src = baseImgSrc
       }
@@ -43,7 +43,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     }
   }, [imageUrl, selectedSize, baseImgSrc])
 
-  const resizeImage = async (img, baseWidth) => {
+  const resizeImage = (img, baseWidth) => {
     const aspectRatio = img.width / img.height
     let resizedImageWidth = baseWidth
     let resizedImageHeight = resizedImageWidth / aspectRatio
@@ -58,16 +58,26 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     setResizedImageWidth(resizedImageWidth)
 
     const offScreenCanvas = document.createElement('canvas')
+    offScreenCanvas.width = resizedImageWidth
+    offScreenCanvas.height = resizedImageHeight
+    const offScreenCtx = offScreenCanvas.getContext('2d')
+    offScreenCtx.drawImage(img, 0, 0, resizedImageWidth, resizedImageHeight)
+
+    const resizedImageDataUrl = offScreenCanvas.toDataURL('image/png')
+    return resizedImageDataUrl
+  }
+
+  const processImageWithPica = async (img) => {
+    const offScreenCanvas = document.createElement('canvas')
     offScreenCanvas.width = img.width
     offScreenCanvas.height = img.height
     const offScreenCtx = offScreenCanvas.getContext('2d')
     offScreenCtx.drawImage(img, 0, 0)
 
     const canvas = document.createElement('canvas')
-    canvas.width = resizedImageWidth
-    canvas.height = resizedImageHeight
+    canvas.width = img.width
+    canvas.height = img.height
 
-    // Utilisation de pica pour redimensionner l'image avec une qualité élevée
     await pica.resize(offScreenCanvas, canvas, {
       unsharpAmount: 160,
       unsharpRadius: 0.6,
@@ -78,13 +88,13 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     return resizedImageDataUrl
   }
 
-  const drawCanvas = async (img, baseImg, selectedSize) => {
+  const drawCanvas = (img, baseImg, selectedSize) => {
     const { baseWidth, baseHeight } = calculateBaseSize(selectedSize)
     const foldStroke = 2
 
-    const resizedImageSrc = await resizeImage(img, baseWidth)
-
+    const resizedImageSrc = resizeImage(img, baseWidth)
     const resizedImage = new Image()
+
     resizedImage.onload = () => {
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
@@ -112,7 +122,6 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     resizedImage.src = resizedImageSrc
   }
 
-
   const downloadImage = () => {
     const downloadLink = document.createElement('a')
     downloadLink.href = imagePreview
@@ -120,18 +129,23 @@ function ImageEditor({ imageUrl, onArmyChange }) {
     downloadLink.click()
   }
 
-  // Fonction pour ajouter un nouveau Mini au tableau qui servira de base à l'édition du canvas A4.
-  const addImageToArmy = () => {
-    const newMini = {
-      image: imagePreview,
-      number: repeatValue,
-      imageWidth: resizedImageWidth
-    }
+  const addImageToArmy = async () => {
+    const img = new Image()
+    img.onload = async () => {
 
-    // Tri des minis en fonction de la hauteur de l'image
-    const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth)
-    setArmy(sortedArmy)
-    onArmyChange(sortedArmy)
+      const resizedImageSrc = await processImageWithPica(img)
+
+      const newMini = {
+        image: resizedImageSrc,
+        number: repeatValue,
+        imageWidth: resizedImageWidth
+      }
+
+      const sortedArmy = [...army, newMini].sort((a, b) => b.imageWidth - a.imageWidth)
+      setArmy(sortedArmy)
+      onArmyChange(sortedArmy)
+    }
+    img.src = imagePreview
   }
 
   const handleBaseChange = (event) => {
