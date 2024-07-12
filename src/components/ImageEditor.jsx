@@ -21,7 +21,7 @@ const resizetoA4MaxHeight = (aspectRatio, baseWidth, A4_HEIGHT_PX_MARGINS) => {
 function ImageEditor({ imageUrl, onArmyChange }) {
   const [imagePreview, setImagePreview] = useState(null)
   const [baseImg, setBaseImg] = useState(null)
-  const [baseImgSrc, setBaseImgSrc] = useState('../src/assets/images/Minibase-grass.svg')
+  const [baseImgSrc, setBaseImgSrc] = useState('assets/images/Minibase-grass.svg')
   const [army, setArmy] = useState([])
   const [selectedSize, setSelectedSize] = useState(1)
   const [repeatValue, setRepeatValue] = useState(1)
@@ -150,7 +150,7 @@ function ImageEditor({ imageUrl, onArmyChange }) {
 
   const handleBaseChange = (event) => {
     const newBaseSrc = event.target.value
-    const baseSrcString = `../src/assets/images/Minibase${newBaseSrc}.svg`
+    const baseSrcString = `assets/images/Minibase${newBaseSrc}.svg`
     setBaseImgSrc(baseSrcString)
   }
 
@@ -174,23 +174,23 @@ function ImageEditor({ imageUrl, onArmyChange }) {
               <div className="flex flex-row rounded-md m-5 p-2 baseSelectorContainer 3xl:p-4">
                 <label>
                   <input type="radio" name="terrain" value='-grass' className="hidden" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-grass.svg" alt="Herbe" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
+                  <img src="assets/images/Minibase-grass.svg" alt="Herbe" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
                   <input type="radio" name="terrain" value='-sand' className="hidden" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-sand.svg" alt="Sable" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
+                  <img src="assets/images/Minibase-sand.svg" alt="Sable" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
                   <input type="radio" name="terrain" value='-cobblestone' className="hidden" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-cobblestone.svg" alt="Pavés" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
+                  <img src="assets/images/Minibase-cobblestone.svg" alt="Pavés" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
                   <input type="radio" name="terrain" value='-lava' className="hidden" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-lava.svg" alt="Lave" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
+                  <img src="assets/images/Minibase-lava.svg" alt="Lave" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
                 <label>
                   <input type="radio" name="terrain" value='-white' className="hidden" onChange={handleBaseChange} />
-                  <img src="../src/assets/images/Minibase-white.svg" alt="Blanc" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
+                  <img src="assets/images/Minibase-white.svg" alt="Blanc" className="w-12 h-12 3xl:w-24 3xl:h-24 object-cover cursor-pointer m-1" />
                 </label>
               </div>
             </div>
