@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { jsPDF } from 'jspdf'
-import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM } from '../utils/util'
+import { A4_HEIGHT_PX, A4_WIDTH_PX, A4_HEIGHT_MM, A4_WIDTH_MM, mmToPx } from '../utils/util'
+
+const PRINT_MARGIN = mmToPx(10)
 
 const createNewCanvas = (containerRef) => {
     const newCanvas = document.createElement('canvas')
@@ -8,6 +10,9 @@ const createNewCanvas = (containerRef) => {
     newCanvas.height = A4_HEIGHT_PX
     newCanvas.style.border = '1px solid black'
     containerRef.current.appendChild(newCanvas)
+    const context = newCanvas.getContext('2d')
+    context.fillStyle = 'white'
+    context.fillRect(0, 0, newCanvas.width, newCanvas.height)
     return newCanvas
 }
 
@@ -23,8 +28,8 @@ function ArmyContainer({ army }) {
     const containerRef = useRef(null)
     const canvasRef = useRef([])
     let currentLineMaxHeight = 0
-    let currentXPos = 0
-    let currentYPos = 0
+    let currentXPos = PRINT_MARGIN
+    let currentYPos = PRINT_MARGIN
 
     useEffect(() => {
         if (!army || army.length === 0) return
@@ -41,15 +46,15 @@ function ArmyContainer({ army }) {
                     let nextXPos = currentXPos
                     let nextYPos = currentYPos
 
-                    if (nextXPos + image.width > canvas.width) {
-                        nextXPos = 0
+                    if (nextXPos + image.width > canvas.width - PRINT_MARGIN) {
+                        nextXPos = PRINT_MARGIN
                         nextYPos += currentLineMaxHeight
                         currentLineMaxHeight = 0
                     }
 
-                    if (nextYPos + image.height > canvas.height) { //remise à zéro de la hauteur du curseur
-                        nextXPos = 0
-                        nextYPos = 0
+                    if (nextYPos + image.height > canvas.height - PRINT_MARGIN) { //remise à zéro de la hauteur du curseur
+                        nextXPos = PRINT_MARGIN
+                        nextYPos = PRINT_MARGIN
                         //création d'un nouveau canvas
                         const newCanvas = createNewCanvas(containerRef)
                         canvasRef.current.push(newCanvas)
@@ -70,28 +75,32 @@ function ArmyContainer({ army }) {
     }, [army])
 
     const downloadArmy = () => {
-        const doc = new jsPDF('portrait', 'mm', 'a4');
+        const doc = new jsPDF('portrait', 'mm', 'a4')
 
         canvasRef.current.forEach((canvas, index) => {
-            const imgData = canvas.toDataURL('image/png');
+            const imgData = canvas.toDataURL('image/png')
             if (index > 0) {
-                doc.addPage();
+                doc.addPage()
             }
-            doc.addImage(imgData, 'PNG', 0, 0, A4_WIDTH_MM, A4_HEIGHT_MM);
-        });
+            doc.addImage(imgData, 'PNG', 5, 0, A4_WIDTH_MM, A4_HEIGHT_MM)
+        })
 
-        doc.save('Armée.pdf');
+        doc.save('Armée.pdf')
     }
 
     if (!army || army.length === 0) return null
 
     return (
-        <div>
-            <div id="canvasControls">
-                <h2 id="armyContainerTitle">Armée</h2>
-                <button onClick={downloadArmy}>Télécharger l'armée</button>
-            </div>
-            <div id="armyContainer" ref={containerRef}></div>
+
+        <div className="flex flex-col items-center">
+            <h2 className="
+                text-center mainTitle
+                p-5 pt-8 mb-4
+                w-5/6 md:w-2/6 3xl:w-1/6 
+                text-xl 3xl:text-2xl"
+            >Armée</h2>
+            <button type="button" className="btn" onClick={downloadArmy}>Télécharger l'armée</button>
+            <div id="flex flex-col items-center flex-wrap" ref={containerRef}></div>
         </div>
     )
 }

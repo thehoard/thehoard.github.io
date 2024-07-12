@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import ReactCrop, {
-  centerCrop,
-  makeAspectCrop,
   Crop,
   PixelCrop,
 } from 'react-image-crop'
@@ -13,33 +11,13 @@ interface ReactCropProps {
   onBlobUrlChange: (blobUrl: string) => void
 }
 
-
-function centerAspectCrop(
-  mediaWidth: number,
-  mediaHeight: number,
-) {
-  return centerCrop(
-    makeAspectCrop(
-      {
-        unit: '%',
-        width: 90,
-      },
-      mediaWidth,
-      mediaHeight,
-    ),
-    mediaWidth,
-    mediaHeight,
-  )
-}
-
 export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
-  const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
-  const blobUrlRef = useRef('')
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -53,8 +31,13 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
   }
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
-    const { width, height } = e.currentTarget
-    setCrop(centerAspectCrop(width, height))
+    setCrop({
+      unit: '%',
+      width: 90,
+      height: 90,
+      x: 5,
+      y: 5,
+    })
   }
 
   useEffect(() => {
@@ -115,11 +98,79 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
     [completedCrop],
   )
 
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setCrop(undefined) // Makes crop preview update between images.
+      const reader = new FileReader()
+      reader.addEventListener('load', () =>
+        setImgSrc(reader.result?.toString() || ''),
+      )
+      reader.readAsDataURL(e.dataTransfer.files[0])
+      e.dataTransfer.clearData()
+    }
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+  }
+
+  function handleDropZoneClick() {
+    fileInputRef.current?.click()
+  }
+
   return (
-    <div className="Crop-Container">
-      <div className="Crop-Controls">
-        <input type="file" accept="image/*" onChange={onSelectFile} />
-      </div>
+    <div className="flex flex-col items-center">
+      {!imgSrc && (
+        <div className="flex flex-wrap justify-center items-center">
+          <div id="welcomeContainer"
+            className="
+              flex justify-between items-center 
+              w-5/6 xl:w-3/6 
+              p-10 sm:p-14 md:p-20 xl:p-20 2xl:p-24 3xl:p-44"
+          >
+            <img id="welcomeGoblin"
+              className="
+                mb-4
+                w-1/3 sm:w-1/4 md:w-2/5 lg:w-2/6 xl:w-2/5 2xl:w-1/3 3xl:w-2/6"
+              src='../src/assets/images/welcome-goblin.png' alt="gobelin souriant"></img>
+            <p className="text-xs sm:text-lg md:text-2xl 3xl:text-6xl w-full h-full text-center" id="welcomeText">Un gobelin vous salue : <br />
+              "L'Aventure vous attend voyageur ! Mais tout aventurier doit avoir des compagnons à ses cotés et adversaires à affronter.
+              Je vais les créer pour vous : Commencez par faire passer une image dans le portail pour la personnaliser et l'ajouter à un parchemin que vous pourrez imprimer.
+              Rassurez-vous : vous pourrez en mettre plusieurs"</p>
+          </div>
+          <div
+            className="overflow-hidden w-4/6 xl:w-2/5 2xl:w-2/6 sm:w-2/4 mt-4 md:mt-0"
+            id="portalControl"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onClick={handleDropZoneClick}
+          >
+            <img className="cursor-pointer" src="../src/assets/images/portail.png" id="filePortal" alt="zone d'upload du fichier"></img>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onSelectFile}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+          </div>
+        </div>
+      )}
+      {imgSrc && (
+        <div className="flex flex-col items-center w-96">
+          <p className="text-4xl md:text-5xl 3xl:text-8xl text-center sectionTitle">Créature</p>
+          <button className="btn w-md" onClick={handleDropZoneClick}>Changer de créature</button>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onSelectFile}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
+        </div>
+      )}
+
       {!!imgSrc && (
         <ReactCrop
           crop={crop}
@@ -130,8 +181,10 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
           <img
             ref={imgRef}
             alt="Crop me"
+            className="imgUploadCrop"
             src={imgSrc}
             onLoad={onImageLoad}
+            style={{ width: '320px' }}
           />
         </ReactCrop>
       )}
