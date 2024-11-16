@@ -46,12 +46,12 @@
   }
   
   body, html {
-    background-image: url(../src/assets/images/background.jpg);
+    background-image: url(../src/assets/images/background.webp);
     background-size: 100% auto;
     background-repeat: repeat-y;
 
     height: 100vh;
-    width: 100vw;
+    width: 99vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,7 +60,7 @@
   /* Logo container */
 
   .mainTitle {
-    background-image: url(../src/assets/images/parchment-banner.png);
+    background-image: url(../src/assets/images/parchment-banner.webp);
     background-size: 100% 100%;
 
     font-family: var(--secondary-font);
@@ -70,7 +70,7 @@
   /* Welcome page */
 
   #welcomeContainer {
-    background-image: url(../src/assets/images/Parchemin.png);
+    background-image: url(../src/assets/images/Parchemin.webp);
     background-size: 100% 100%;
 
     font-family: var(--primary-font);
@@ -142,7 +142,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* TailWind doesn't provide any buttons, so a custom class is written here */
   .btn {
-    background-image: url(../src/assets/images/buttons.png);
+    background-image: url(../src/assets/images/buttons.webp);
     background-size: 100% 100%;
     
     margin-top: 1rem;
@@ -157,11 +157,11 @@ input[type="number"]::-webkit-outer-spin-button {
   }
   
   .btn:hover {
-    background-image: url(../src/assets/images/buttons-hover.png);
+    background-image: url(../src/assets/images/buttons-hover.webp);
   }
   
   .btn:active {
-    background-image: url(../src/assets/images/buttons-click.png);
+    background-image: url(../src/assets/images/buttons-click.webp);
   }
 
   canvas {

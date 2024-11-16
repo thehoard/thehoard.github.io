@@ -606,6 +606,10 @@ video {
   height: 3rem;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
@@ -623,8 +627,16 @@ video {
   width: 20%;
 }
 
+.w-11\/12 {
+  width: 91.666667%;
+}
+
 .w-12 {
   width: 3rem;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-4\/6 {
@@ -639,8 +651,22 @@ video {
   width: 24rem;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .w-full {
   width: 100%;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 .cursor-pointer {
@@ -689,12 +715,20 @@ video {
   overflow: hidden;
 }
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .rounded-md {
   border-radius: 0.375rem;
 }
 
 .border {
   border-width: 1px;
+}
+
+.border-t-4 {
+  border-top-width: 4px;
 }
 
 .object-cover {
@@ -802,11 +836,11 @@ video {
 }
 
 body, html {
-  background-image: url(../src/assets/images/background.jpg);
+  background-image: url(../src/assets/images/background.webp);
   background-size: 100% auto;
   background-repeat: repeat-y;
   height: 100vh;
-  width: 100vw;
+  width: 99vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -815,7 +849,7 @@ body, html {
 /* Logo container */
 
 .mainTitle {
-  background-image: url(../src/assets/images/parchment-banner.png);
+  background-image: url(../src/assets/images/parchment-banner.webp);
   background-size: 100% 100%;
   font-family: var(--secondary-font);
   color: var(--primary-font-color);
@@ -824,7 +858,7 @@ body, html {
 /* Welcome page */
 
 #welcomeContainer {
-  background-image: url(../src/assets/images/Parchemin.png);
+  background-image: url(../src/assets/images/Parchemin.webp);
   background-size: 100% 100%;
   font-family: var(--primary-font);
   color: var(--primary-font-color);
@@ -896,7 +930,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* TailWind doesn't provide any buttons, so a custom class is written here */
 
 .btn {
-  background-image: url(../src/assets/images/buttons.png);
+  background-image: url(../src/assets/images/buttons.webp);
   background-size: 100% 100%;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -908,11 +942,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .btn:hover {
-  background-image: url(../src/assets/images/buttons-hover.png);
+  background-image: url(../src/assets/images/buttons-hover.webp);
 }
 
 .btn:active {
-  background-image: url(../src/assets/images/buttons-click.png);
+  background-image: url(../src/assets/images/buttons-click.webp);
 }
 
 canvas {
@@ -1005,6 +1039,14 @@ canvas {
 }
 
 @media (min-width: 1280px) {
+  .xl\:flex {
+    display: flex;
+  }
+
+  .xl\:h-1\/2 {
+    height: 50%;
+  }
+
   .xl\:h-4 {
     height: 1rem;
   }
@@ -1029,8 +1071,12 @@ canvas {
     width: 1rem;
   }
 
-  .xl\:w-5\/6 {
-    width: 83.333333%;
+  .xl\:w-4\/6 {
+    width: 66.666667%;
+  }
+
+  .xl\:w-\[35\%\] {
+    width: 35%;
   }
 
   .xl\:p-20 {

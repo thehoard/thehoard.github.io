@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import ReactCrop from './components/ReactCrop.tsx'
-import ImageEditor from './components/ImageEditor'
-import ArmyContainer from './components/ArmyContainer.jsx'
+import React, { useState, Suspense, lazy } from 'react'
+import LoadingScreen from './components/LoadingScreen.jsx'
+
+const ReactCrop = lazy(() => import('./components/ReactCrop.tsx'))
+const ImageEditor = lazy(() => import('./components/ImageEditor'))
+const ArmyContainer = lazy(() => import('./components/ArmyContainer.jsx'))
 
 function App() {
 
@@ -13,10 +15,10 @@ function App() {
       <div className="
         flex flex-wrap items-center justify-around
         mr-auto ml-auto 
-        w-5/6 md:w-4/6 lg:w-3/6 xl:w-5/6"
+        w-5/6 md:w-4/6 lg:w-3/6 xl:w-4/6"
       >
-        <a href="https://thehoard.co/" target="_blank" className="flex mb-4 w-5/6 xl:w-2/6 2xl:w-3/6 3xl:w-3/6">
-          <img src="assets/images/Th-Logo-long-blanc.png" alt="Logo The hoard" className="w-full" />
+        <a href="https://thehoard.co/" target="_blank" className="flex mb-4 w-4/6 xl:w-2/6 2xl:w-3/6 3xl:w-3/6">
+          <img src="assets/images/Th-Logo-long-blanc.webp" alt="Logo The hoard" className="w-full" />
         </a>
         <h1 className="
           text-center mainTitle
@@ -27,10 +29,16 @@ function App() {
         >Minis-printer</h1>
       </div>
       <div className="inline-flex justify-center h-fit w-full flex-wrap">
-        <ReactCrop onBlobUrlChange={setImageUrl} />
-        <ImageEditor onArmyChange={setArmy} imageUrl={imageUrl} />
+        <Suspense fallback={<LoadingScreen />}>
+          <ReactCrop onBlobUrlChange={setImageUrl} />
+        </Suspense>
+        <Suspense fallback={<LoadingScreen />}>
+          <ImageEditor onArmyChange={setArmy} imageUrl={imageUrl} />
+        </Suspense>
       </div>
-      <ArmyContainer army={army} />
+      <Suspense fallback={<LoadingScreen />}>
+        <ArmyContainer army={army} />
+      </Suspense>
     </div>
   )
 }

@@ -126,7 +126,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
           <div id="welcomeContainer"
             className="
               flex justify-between items-center 
-              w-5/6 xl:w-3/6 
+              w-11/12 xl:w-3/6 
               p-10 sm:p-14 md:p-20 xl:p-20 2xl:p-24 3xl:p-44"
           >
             <img id="welcomeGoblin"
@@ -140,13 +140,13 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
               Rassurez-vous : vous pourrez en mettre plusieurs"</p>
           </div>
           <div
-            className="overflow-hidden w-4/6 xl:w-2/5 2xl:w-2/6 sm:w-2/4 mt-4 md:mt-0"
+            className="overflow-hidden w-4/6 xl:w-[35%] 2xl:w-2/6 sm:w-2/4 mt-4 md:mt-0"
             id="portalControl"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onClick={handleDropZoneClick}
           >
-            <img className="cursor-pointer" src="assets/images/portail.png" id="filePortal" alt="zone d'upload du fichier"></img>
+            <img className="cursor-pointer xl:flex xl:h-1/2 w-auto" src="assets/images/portail.webp" id="filePortal" alt="zone d'upload du fichier"></img>
             <input
               type="file"
               accept="image/*"
@@ -184,7 +184,7 @@ export default function ImageCropper({ onBlobUrlChange }: ReactCropProps) {
             className="imgUploadCrop"
             src={imgSrc}
             onLoad={onImageLoad}
-            style={{ width: '320px' }}
+            style={{ maxWidth: '320px' }}
           />
         </ReactCrop>
       )}
