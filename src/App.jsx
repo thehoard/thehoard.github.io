@@ -1,5 +1,6 @@
 import React, { useState, Suspense, lazy } from 'react'
 import LoadingScreen from './components/LoadingScreen.jsx'
+import ShareButtons from './components/ShareButtons.tsx'
 
 const ReactCrop = lazy(() => import('./components/ReactCrop.tsx'))
 const ImageEditor = lazy(() => import('./components/ImageEditor'))
@@ -27,6 +28,9 @@ function App() {
           3xl:p-20 3xl:pt-24 
           2xl:text-2xl 3xl:text-5xl"
         >Minis-printer</h1>
+        <div className="flex w-full justify-center">
+          <ShareButtons />
+        </div>
       </div>
       <div className="inline-flex justify-center h-fit w-full flex-wrap">
         <Suspense fallback={<LoadingScreen />}>

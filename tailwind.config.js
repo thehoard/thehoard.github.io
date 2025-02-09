@@ -4,6 +4,9 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'poppins': 'var(--secondary-font)',
+    },
     extend: {
       height: {
         'fixed30': '30rem',
